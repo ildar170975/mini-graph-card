@@ -329,7 +329,8 @@ class MiniGraphCard extends LitElement {
           && this.config.entities[index].show_graph !== false)
         historyUndefined += 1;
     });
-    const ready = this.entity[0] && (historyUndefined === 0) && (this.config.disable_loader_indicator === true);
+    const ready = this.entity[0] && (historyUndefined === 0)
+                    && (this.config.disable_loader_indicator === true);
     return this.config.show.graph ? html`
       <div class="graph">
         ${ready ? html`
@@ -989,9 +990,6 @@ class MiniGraphCard extends LitElement {
     } else {
       this.Graph[index].history = stateHistory;
     }
-
-    if (stateHistory.length === 1)
-      console.log('length: ', stateHistory.length);
   }
 
   async fetchRecent(entityId, start, end, skipInitialState, withAttributes) {
