@@ -990,7 +990,7 @@ class MiniGraphCard extends LitElement {
       this.Graph[index].history = stateHistory;
     }
 
-    if(stateHistory.length === 1)
+    if (stateHistory.length === 1)
       console.log('length: ', stateHistory.length);
   }
 
