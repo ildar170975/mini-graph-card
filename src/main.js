@@ -989,6 +989,9 @@ class MiniGraphCard extends LitElement {
     } else {
       this.Graph[index].history = stateHistory;
     }
+
+    if(stateHistory.length === 1)
+      console.log('length: ', stateHistory.length);
   }
 
   async fetchRecent(entityId, start, end, skipInitialState, withAttributes) {
