@@ -329,7 +329,7 @@ class MiniGraphCard extends LitElement {
           && this.config.entities[index].show_graph !== false)
         historyUndefined += 1;
     });
-    const ready = this.entity[0] && (historyUndefined === 0);
+    const ready = this.entity[0] && (historyUndefined === 0) && (this.config.disable_loader_indicator === true);
     return this.config.show.graph ? html`
       <div class="graph">
         ${ready ? html`
