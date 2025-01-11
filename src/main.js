@@ -324,7 +324,7 @@ class MiniGraphCard extends LitElement {
 
   renderGraph() {
     let historyUndefined = 0;
-    this.Graph.forEach((graph,index) => {
+    this.Graph.forEach((graph, index) => {
       if (graph._history === undefined &&
           this.config.entities[index].show_graph !== false)
         historyUndefined += 1;
