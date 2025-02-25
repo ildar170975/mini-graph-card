@@ -181,7 +181,7 @@ class MiniGraphCard extends LitElement {
     if (this.config.entities.some((_, index) => this.entity[index] === undefined)) {
       return this.renderWarnings();
     }
-    this.style.borderRadius = "50%";
+    this.style.borderRadius = '50%';
     return html`
       <ha-card
         class="flex"
