@@ -52,11 +52,9 @@ const style = css`
     stroke-linecap: initial;
     stroke-linejoin: initial;
   }
-  ha-card[fill] .graph__legend {
-    /*
+  ha-card .graph__legend {
     order: -1;
     padding: 0 16px 8px 16px;
-    */
   }
   ha-card[fill] .info {
     /*
