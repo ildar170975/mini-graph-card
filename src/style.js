@@ -45,8 +45,8 @@ const style = css`
   ha-card[fill] .graph {
     /*
     padding: 0;
-    order: 10;
     */
+    order: 10;
   }
   ha-card[fill] path {
     stroke-linecap: initial;
