@@ -20,6 +20,7 @@ const style = css`
   }
   ha-card .graph {
     padding: 0;
+    order: 10;
   }
   ha-card[points] .line--points,
   ha-card[labels] .graph__labels.--primary {
@@ -36,17 +37,6 @@ const style = css`
   ha-card:hover .graph__labels.--primary,
   ha-card:hover .graph__labels.--secondary {
       opacity: 1;
-  }
-  /*
-  ha-card[fill] {
-    padding-bottom: 0;
-  }
-  */
-  ha-card[fill] .graph {
-    /*
-    padding: 0;
-    */
-    order: 10;
   }
   ha-card[fill] path {
     stroke-linecap: initial;
