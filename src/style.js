@@ -55,6 +55,7 @@ const style = css`
   ha-card[group] {
     box-shadow: none;
     padding: 0;
+    border: none;
   }
   ha-card[group] > div {
     padding-left: 0;
