@@ -46,11 +46,6 @@ const style = css`
     order: -1;
     padding: 0 16px 8px 16px;
   }
-  ha-card[fill] .info {
-    /*
-    padding-bottom: 16px;
-    */
-  }
   ha-card[group] {
     box-shadow: none;
     border: none;
