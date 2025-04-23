@@ -739,9 +739,13 @@ class MiniGraphCard extends LitElement {
       console.log('computeState(): index undefined');
       dec = this.config.decimals;
     } else if (index === -1) {
-      dec = this.config.decimals_secondary !== undefined ? this.config.decimals_secondary : this.config.decimals;
+      dec = this.config.decimals_secondary !== undefined
+        ? this.config.decimals_secondary
+        : this.config.decimals;
     } else {
-      dec = this.config.entities[index].decimals !== undefined ? this.config.entities[index].decimals : this.config.decimals;
+      dec = this.config.entities[index].decimals !== undefined
+        ? this.config.entities[index].decimals
+        : this.config.decimals;
     }
     console.log('computeState(): dec %s', dec);
 
