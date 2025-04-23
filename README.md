@@ -98,7 +98,8 @@ We recommend looking at the [Example usage section](#example-usage) to understan
 | line_color | string/list | `var(--accent-color)` | v0.0.1 | Set a custom color for the graph line, provide a list of colors for multiple graph entries.
 | color_thresholds | list |  | v0.2.3 | Set thresholds for dynamic graph colors, see [Line color object](#line-color-object).
 | color_thresholds_transition | string | `smooth` | v0.4.3 | Color threshold transition, `smooth` or `hard`.
-| decimals | integer |  | v0.0.9 | Specify the exact number of decimals to show for states.
+| decimals | integer |  | v0.0.9 | Specify the exact number of decimals to show for number values.
+| decimals_secondary | integer |  | v0.13.0 | Specify the exact number of decimals to show for secondary Y-axis labels.
 | hour24 | boolean | `false` | v0.2.1 | Set to `true` to display times in 24-hour format.
 | font_size | number | `100` | v0.0.3 | Adjust the font size of the state, as percentage of the original size.
 | font_size_header | number | `14` | v0.3.1 | Adjust the font size of the header, size in pixels.
@@ -129,7 +130,7 @@ properties of the Entity object detailed in the following table (as per `sensor.
 | color | string |         | Set a custom color, overrides all other color options including thresholds.
 | unit | string |         | Set a custom unit of measurement, overrides `unit` set in base config.
 | aggregate_func | string |         | Override for aggregate function used to calculate point on the graph, `avg`, `median`, `min`, `max`, `first`, `last`, `sum`.
-| decimals | integer |    | Override the exact number of decimals to show for states.
+| decimals | integer |    | Override the exact number of decimals to show for number values.
 | show_state | boolean |         | Display the current state.
 | show_legend_state | boolean |  false  | Display the current state as part of the legend.
 | show_indicator | boolean |         | Display a color indicator next to the state, (only when more than two states are visible).
@@ -496,6 +497,27 @@ state_map:
   - value: "on"
     label: Detected
 ```
+
+#### Number format
+
+Options `decimals` defined "card-wide" and/or for some entity are used to set an exact number of decimals according to the following rules:
+1. For states:
+- if none `decimals` option is defined - a default presentation is used;
+- if "card-wide" `decimals` is defined - this value is used;
+- if `decimals` for some entity is defined - this value is used for this entity.
+2. For extrema & average values:
+- if none `decimals` option is defined - a default presentation is used;
+- if "card-wide" `decimals` is defined - this value is used;
+- if `decimals` is defined for the 1st entity - this value is used.
+3. For primary Y-axis labels:
+- if "card-wide" `decimals` option is not defined - a default presentation is used;
+- otherwise - this value is used.
+4. For secondary Y-axis labels:
+- if "card-wide" `decimals` & `decimals_secondary` option are not defined - a default presentation is used;
+- if "card-wide" `decimals` option is defined - this value is used;
+- if "card-wide" `decimals_secondary` option is defined - this value is used.
+  
+
 
 #### Showing additional info on the card
 
