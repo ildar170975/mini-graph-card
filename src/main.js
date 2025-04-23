@@ -739,16 +739,16 @@ class MiniGraphCard extends LitElement {
       console.log('computeState(): index undefined');
       dec = this.config.decimals;
     } else if (index === -1) {
-      dec = this.config.decimals_secondary || this.config.decimals;
+      dec = this.config.decimals_secondary ?? this.config.decimals;
     } else {
-      dec = this.config.entities[index].decimals || this.config.decimals;
+      dec = this.config.entities[index].decimals ?? this.config.decimals;
     }
     console.log('computeState(): dec %s', dec);
 
     const value_factor = 10 ** this.config.value_factor;
 
     if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-      console.log('computeState(): dec undefined');
+      console.log('computeState(): warning: dec undefined');
       return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
     }
 
