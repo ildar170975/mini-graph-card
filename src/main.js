@@ -712,8 +712,8 @@ class MiniGraphCard extends LitElement {
     );
   }
 
-  computeState(inState, entityIndex) {
-    console.log("entityIndex %s", entityIndex);
+  computeState(inState, index) {
+    console.log('index %s', index);
 
     if (this.config.state_map.length > 0) {
       const stateMap = Number.isInteger(inState)
@@ -733,7 +733,7 @@ class MiniGraphCard extends LitElement {
     } else {
       state = Number(inState);
     }
-    const dec = entity.decimals || this.config.decimals;
+    const dec = this.config.entities[index].decimals || this.config.decimals;
     const value_factor = 10 ** this.config.value_factor;
 
     if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
