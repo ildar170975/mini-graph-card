@@ -736,21 +736,27 @@ class MiniGraphCard extends LitElement {
 
     let dec;
     if (index === undefined) {
-      console.log('computeState(): index indefined');
+      console.log('computeState(): index undefined');
       dec = this.config.decimals;
     } else if (index === -1) {
       dec = this.config.decimals_secondary || this.config.decimals;
     } else {
       dec = this.config.entities[index].decimals || this.config.decimals;
     }
+    console.log('computeState(): dec %s', dec);
 
     const value_factor = 10 ** this.config.value_factor;
 
     if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
+      console.log('computeState(): dec undefined');
       return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
     }
 
     const x = 10 ** dec;
+    console.log('computeState(): return', this.numberFormat(
+      (Math.round(state * value_factor * x) / x).toFixed(dec),
+      this._hass.language, dec,
+    ));
     return this.numberFormat(
       (Math.round(state * value_factor * x) / x).toFixed(dec),
       this._hass.language, dec,
