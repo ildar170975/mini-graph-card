@@ -733,7 +733,17 @@ class MiniGraphCard extends LitElement {
     } else {
       state = Number(inState);
     }
-    const dec = this.config.entities[index].decimals || this.config.decimals;
+
+    let dec;
+    if (index === undefined) {
+      console.log('computeState(): index indefined');
+      dec = this.config.decimals;
+    } else if (index === -1) {
+      dec = this.config.decimals_secondary || this.config.decimals;
+    } else {
+      dec = this.config.entities[index].decimals || this.config.decimals;
+    }
+
     const value_factor = 10 ** this.config.value_factor;
 
     if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
