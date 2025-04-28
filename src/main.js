@@ -734,8 +734,8 @@ class MiniGraphCard extends LitElement {
     let dec = this.config.decimals;
     const value_factor = 10 ** (
       this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
-       ? this.config.value_factor
-       : 0
+        ? this.config.value_factor
+        : 0
       );
 
     if (!Number.isNaN(Number(state)) && Intl) {
@@ -750,10 +750,11 @@ class MiniGraphCard extends LitElement {
       } else {
         const x = 10 ** dec;
         num = (Math.round(num * x) / x).toFixed(dec);
-        return new Intl.NumberFormat(this._hass.language, { minimumFractionDigits: dec }).format(Number(num));
+        return new Intl.NumberFormat(
+          this._hass.language, { minimumFractionDigits: dec }).format(Number(num));
       }
     } else
-      return num.toString();
+      return state.toString();
 
     
     // if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
