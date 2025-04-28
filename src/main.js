@@ -1,5 +1,5 @@
 import { LitElement, html, svg } from 'lit-element';
-import { classMap } from "lit/directives/class-map";
+import { classMap } from "lit-html/directives/class-map";
 import localForage from 'localforage/src/localforage';
 import { stateIcon } from 'custom-card-helpers';
 import SparkMD5 from 'spark-md5';
