@@ -303,9 +303,10 @@ class MiniGraphCard extends LitElement {
           <span class="state__value ellipsis">
             ${this.computeState(value, this.config.entities[id].entity)}
           </span>
-          <span class="state__uom ellipsis"
+          <span
             class=${classMap({
-              'uom--hidden': !Number.isNaN(Number(value)),
+              "state__uom ellipsis": true,
+              "uom--hidden': value === "unavailable",
             })}
           >
             ${this.computeUom(entity)}
