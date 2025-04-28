@@ -744,7 +744,7 @@ class MiniGraphCard extends LitElement {
         dec = 2;
         const x = 10 ** dec;
         num = Math.round(num * x) / x;
-        if (entityId !=== undefined) {
+        if (entityId !== undefined) {
           const formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
           console.log('formattedState = %s', formattedState);
         }
