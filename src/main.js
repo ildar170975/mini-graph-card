@@ -745,43 +745,43 @@ class MiniGraphCard extends LitElement {
         : 0
     );
 
+    let formattedState;
     if (!Number.isNaN(Number(state)) && Intl) {
       let num = state * value_factor;
       if (dec === undefined || Number.isNaN(dec)) {
-        dec = 2;
-        const x = 10 ** dec;
-        num = Math.round(num * x) / x;
         if (entityId !== undefined) {
-          const formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
-          console.log('formattedState = %s', formattedState);
+          formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
+          console.log('stock (default): %s', formattedState);
+        } else {
+          dec = 2;
+          const x = 10 ** dec;
+          num = Math.round(num * x) / x;
+          formattedState = new Intl.NumberFormat(this._hass.language).format(Number(num));
+          console.log('Intl (default): %s', formattedState);
         }
-        return new Intl.NumberFormat(this._hass.language).format(Number(num));
       } else {
         const x = 10 ** dec;
         num = (Math.round(num * x) / x).toFixed(dec);
-        return new Intl.NumberFormat(
-          this._hass.language, { minimumFractionDigits: dec },
-        ).format(Number(num));
+        if (entityId !== undefined) {
+          formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
+          console.log('stock (dec): %s', formattedState);
+        } else {
+          formattedState = new Intl.NumberFormat(
+              this._hass.language, { minimumFractionDigits: dec },
+            ).format(Number(num));
+          console.log('Intl (dec): %s', formattedState);
+        }
       }
     } else {
       if (entityId !== undefined) {
-        const formattedState = this._hass.formatEntityState(this._hass.states[entityId], state);
-        console.log('formattedState = %s', formattedState);
+        formattedState = this._hass.formatEntityState(this._hass.states[entityId], state);
+        console.log('stock (isNaN): %s', formattedState);
+      } else {
+        formattedState = state.toString();
+        console.log('stock (toString): %s', formattedState);
       }
-      return state.toString();
     }
-
-    // if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-    //   return this.numberFormat(
-    //     Math.round(state * value_factor * 100) / 100, this._hass.language
-    //   );
-    // }
-
-    // const x = 10 ** dec;
-    // return this.numberFormat(
-    //   (Math.round(state * value_factor * x) / x).toFixed(dec),
-    //   this._hass.language, dec,
-    // );
+    return formattedState;
   }
 
   updateOnInterval() {
