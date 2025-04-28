@@ -285,6 +285,7 @@ class MiniGraphCard extends LitElement {
     }
   }
 
+  
   renderState(entityConfig, id) {
     const isPrimary = id === 0; // rendering main state element?
     if (isPrimary || entityConfig.show_state) {
@@ -300,7 +301,7 @@ class MiniGraphCard extends LitElement {
           style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entity)}` : ''}>
           ${entityConfig.show_indicator ? this.renderIndicator(value, entity) : ''}
           <span class="state__value ellipsis">
-            ${this.computeState(value)}
+            ${this.computeState(value, this.config.entities[id].entity)}
           </span>
           <span class="state__uom ellipsis">
             ${this.computeUom(entity)}
@@ -356,9 +357,9 @@ class MiniGraphCard extends LitElement {
 
     if (show_legend_state) {
       if (this.computeUom(index) === '%') {
-        legend += ` (${this.computeState(state)}${this.computeUom(index)})`;
+        legend += ` (${this.computeState(state, this.config.entities[index].entity)}${this.computeUom(index)})`;
       } else {
-        legend += ` (${this.computeState(state)} ${this.computeUom(index)})`;
+        legend += ` (${this.computeState(state, this.config.entities[index].entity)} ${this.computeUom(index)})`;
       }
     }
 
@@ -712,7 +713,7 @@ class MiniGraphCard extends LitElement {
     );
   }
 
-  computeState(inState) {
+  computeState(inState, entityId) {
     if (this.config.state_map.length > 0) {
       const stateMap = Number.isInteger(inState)
         ? this.config.state_map[inState]
@@ -732,23 +733,39 @@ class MiniGraphCard extends LitElement {
       state = Number(inState);
     }
     const dec = this.config.decimals;
-    const value_factor = 10 ** this.config.value_factor;
+    const value_factor = 10 ** 
+      (this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
+         ? this.config.value_factor
+         : 0
+      );
 
-    if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-      return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
-    }
+    if (!Number.isNaN(Number(state)) && Intl) {
+      let num = state * value_factor;
+      if (dec === undefined || Number.isNaN(dec)) {
+        dec = 2;
+        const x = 10 ** dec;
+        num = Math.round(num * x) / x);
+        const formattedState = this.hass.formatEntityState(this.hass.states[entityId], num);
+        console.log("formattedState = %s", formattedState);
+        return new Intl.NumberFormat(this._hass.language).format(Number(num));
+      } else {
+        const x = 10 ** dec;
+        num = (Math.round(num * x) / x).toFixed(dec);
+        return new Intl.NumberFormat(this._hass.language, { minimumFractionDigits: dec }).format(Number(num));
+      }
+    } else
+      return num.toString();
 
-    const x = 10 ** dec;
-    return this.numberFormat(
-      (Math.round(state * value_factor * x) / x).toFixed(dec),
-      this._hass.language, dec,
-    );
-  }
+    
+    // if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
+    //   return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
+    // }
 
-  numberFormat(num, language, dec) {
-    if (!Number.isNaN(Number(num)) && Intl)
-      return new Intl.NumberFormat(language, { minimumFractionDigits: dec }).format(Number(num));
-    return num.toString();
+    // const x = 10 ** dec;
+    // return this.numberFormat(
+    //   (Math.round(state * value_factor * x) / x).toFixed(dec),
+    //   this._hass.language, dec,
+    // );
   }
 
   updateOnInterval() {
