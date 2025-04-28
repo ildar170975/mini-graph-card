@@ -1,5 +1,5 @@
 import { LitElement, html, svg } from 'lit-element';
-import { classMap } from "lit-html/directives/class-map";
+import { classMap } from 'lit-html/directives/class-map';
 import localForage from 'localforage/src/localforage';
 import { stateIcon } from 'custom-card-helpers';
 import SparkMD5 from 'spark-md5';
@@ -304,10 +304,7 @@ class MiniGraphCard extends LitElement {
             ${this.computeState(value, this.config.entities[id].entity)}
           </span>
           <span
-            class=${classMap({
-              "state__uom ellipsis": true,
-              "uom--hidden": value === "unavailable",
-            })}
+            class=${classMap({'state__uom ellipsis': true, 'uom--hidden': value === "unavailable"})}
           >
             ${this.computeUom(entity)}
           </span>
