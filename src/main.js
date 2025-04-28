@@ -343,7 +343,7 @@ class MiniGraphCard extends LitElement {
             </div>
             ${this.renderLegend()}
         ` : html`
-          <ha-spinner aria-label="Loading" size="large" indeterminate></ha-spinner>
+          <ha-spinner aria-label="Loading" size="small"></ha-spinner>
         `}
       </div>` : '';
   }
