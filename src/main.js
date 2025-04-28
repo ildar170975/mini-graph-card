@@ -285,7 +285,6 @@ class MiniGraphCard extends LitElement {
     }
   }
 
-  
   renderState(entityConfig, id) {
     const isPrimary = id === 0; // rendering main state element?
     if (isPrimary || entityConfig.show_state) {
@@ -732,11 +731,11 @@ class MiniGraphCard extends LitElement {
     } else {
       state = Number(inState);
     }
-    const dec = this.config.decimals;
-    const value_factor = 10 ** 
-      (this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
-         ? this.config.value_factor
-         : 0
+    let dec = this.config.decimals;
+    const value_factor = 10 ** (
+      this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
+       ? this.config.value_factor
+       : 0
       );
 
     if (!Number.isNaN(Number(state)) && Intl) {
@@ -746,7 +745,7 @@ class MiniGraphCard extends LitElement {
         const x = 10 ** dec;
         num = Math.round(num * x) / x;
         const formattedState = this.hass.formatEntityState(this.hass.states[entityId], num);
-        console.log("formattedState = %s", formattedState);
+        console.log('formattedState = %s', formattedState);
         return new Intl.NumberFormat(this._hass.language).format(Number(num));
       } else {
         const x = 10 ** dec;
