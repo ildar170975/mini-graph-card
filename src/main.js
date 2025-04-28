@@ -756,8 +756,13 @@ class MiniGraphCard extends LitElement {
           this._hass.language, { minimumFractionDigits: dec },
         ).format(Number(num));
       }
-    } else
+    } else {
+      if (entityId !== undefined) {
+        const formattedState = this._hass.formatEntityState(this._hass.states[entityId], state);
+        console.log('formattedState = %s', formattedState);
+      }
       return state.toString();
+    }
 
     // if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
     //   return this.numberFormat(
