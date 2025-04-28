@@ -751,7 +751,7 @@ class MiniGraphCard extends LitElement {
         const x = 10 ** dec;
         num = (Math.round(num * x) / x).toFixed(dec);
         return new Intl.NumberFormat(
-          this._hass.language, { minimumFractionDigits: dec }
+          this._hass.language, { minimumFractionDigits: dec },
         ).format(Number(num));
       }
     } else
