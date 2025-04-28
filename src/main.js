@@ -773,6 +773,7 @@ class MiniGraphCard extends LitElement {
         }
       }
     } else {
+      // eslint-disable-next-line no-lonely-if
       if (entityId !== undefined) {
         formattedState = this._hass.formatEntityState(this._hass.states[entityId], state);
         console.log('stock (isNaN): %s', formattedState);
