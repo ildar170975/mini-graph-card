@@ -736,7 +736,7 @@ class MiniGraphCard extends LitElement {
       this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
         ? this.config.value_factor
         : 0
-      );
+    );
 
     if (!Number.isNaN(Number(state)) && Intl) {
       let num = state * value_factor;
@@ -751,14 +751,16 @@ class MiniGraphCard extends LitElement {
         const x = 10 ** dec;
         num = (Math.round(num * x) / x).toFixed(dec);
         return new Intl.NumberFormat(
-          this._hass.language, { minimumFractionDigits: dec }).format(Number(num));
+          this._hass.language, { minimumFractionDigits: dec }
+        ).format(Number(num));
       }
     } else
       return state.toString();
 
-    
     // if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-    //   return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
+    //   return this.numberFormat(
+    //     Math.round(state * value_factor * 100) / 100, this._hass.language
+    //   );
     // }
 
     // const x = 10 ** dec;
