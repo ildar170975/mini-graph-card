@@ -725,13 +725,13 @@ class MiniGraphCard extends LitElement {
       }
     }
 
-    let state;
+    // let state;
     // if (typeof inState === 'string') {
     //   state = parseFloat(inState.replace(/,/g, '.'));
     // } else {
     //   state = Number(inState);
     // }
-    state = inState;
+    const state = inState;
     let dec = this.config.decimals;
     const value_factor = 10 ** (
       this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
