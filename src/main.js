@@ -744,7 +744,7 @@ class MiniGraphCard extends LitElement {
       if (dec === undefined || Number.isNaN(dec)) {
         dec = 2;
         const x = 10 ** dec;
-        num = Math.round(num * x) / x);
+        num = Math.round(num * x) / x;
         const formattedState = this.hass.formatEntityState(this.hass.states[entityId], num);
         console.log("formattedState = %s", formattedState);
         return new Intl.NumberFormat(this._hass.language).format(Number(num));
