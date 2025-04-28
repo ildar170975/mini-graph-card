@@ -69,7 +69,7 @@ const style = css`
   }
   ha-spinner {
     display: block;
-    margin: auto;
+    margin: 4px auto;
     text-align: center;
   }
   .flex {
