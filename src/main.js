@@ -767,8 +767,8 @@ class MiniGraphCard extends LitElement {
           console.log('stock (dec): %s', formattedState);
         } else {
           formattedState = new Intl.NumberFormat(
-              this._hass.language, { minimumFractionDigits: dec },
-            ).format(Number(num));
+            this._hass.language, { minimumFractionDigits: dec },
+          ).format(Number(num));
           console.log('Intl (dec): %s', formattedState);
         }
       }
