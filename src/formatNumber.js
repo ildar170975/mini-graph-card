@@ -1,6 +1,6 @@
 // adapted from HomeAssistant frontend
 
-enum NumberFormat {
+export enum NumberFormat {
   language = "language",
   system = "system",
   comma_decimal = "comma_decimal",
@@ -40,7 +40,7 @@ export enum FirstWeekday {
   sunday = "sunday",
 }
 
-interface FrontendLocaleData {
+export interface FrontendLocaleData {
   language: string;
   number_format: NumberFormat;
   time_format: TimeFormat;
