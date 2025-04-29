@@ -778,12 +778,12 @@ class MiniGraphCard extends LitElement {
           const formatOptions = (num >= 1 || num <= -1)
             ? undefined
             : {
-                // show the first significant digit for tiny values
-                maximumFractionDigits: Math.max(
-                  2,
-                  -Math.floor(Math.log10(Math.abs(num % 1 || 1)))
-                ),
-              };
+              // show the first significant digit for tiny values
+              maximumFractionDigits: Math.max(
+                2,
+                -Math.floor(Math.log10(Math.abs(num % 1 || 1)))
+              ),
+            };
           const label = formatNumber(
             num,
             this._hass.locale,
