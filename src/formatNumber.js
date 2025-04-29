@@ -40,7 +40,7 @@ export const FirstWeekday = {
   sunday: "sunday",
 }
 
-export interface FrontendLocaleData {
+export const FrontendLocaleData = {
   language: string;
   number_format: NumberFormat;
   time_format: TimeFormat;
