@@ -1,6 +1,6 @@
 // adapted from HomeAssistant frontend
 
-export const NumberFormat {
+export const NumberFormat = {
   language = "language",
   system = "system",
   comma_decimal = "comma_decimal",
@@ -9,19 +9,19 @@ export const NumberFormat {
   none = "none",
 }
 
-export const TimeFormat {
+export const TimeFormat = {
   language = "language",
   system = "system",
   am_pm = "12",
   twenty_four = "24",
 }
 
-export const TimeZone {
+export const TimeZone = {
   local = "local",
   server = "server",
 }
 
-export const DateFormat {
+export const DateFormat = {
   language = "language",
   system = "system",
   DMY = "DMY",
@@ -29,7 +29,7 @@ export const DateFormat {
   YMD = "YMD",
 }
 
-export const FirstWeekday {
+export const FirstWeekday = {
   language = "language",
   monday = "monday",
   tuesday = "tuesday",
