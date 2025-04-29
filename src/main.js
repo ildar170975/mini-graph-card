@@ -1,4 +1,5 @@
 import { LitElement, html, svg } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map';
 import localForage from 'localforage/src/localforage';
 import { stateIcon } from 'custom-card-helpers';
 import SparkMD5 from 'spark-md5';
@@ -7,6 +8,7 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
+// import formatNumber from './formatNumber.ts';
 import './initialize';
 import { version } from '../package.json';
 
@@ -301,9 +303,11 @@ class MiniGraphCard extends LitElement {
           style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entity)}` : ''}>
           ${entityConfig.show_indicator ? this.renderIndicator(value, entity) : ''}
           <span class="state__value ellipsis">
-            ${this.computeState(value)}
+            ${this.computeState(value, entity)}
           </span>
-          <span class="state__uom ellipsis">
+          <span
+            class=${classMap({ state__uom: true, ellipsis: true, 'uom--hidden': value === 'unavailable' })}
+          >
             ${this.computeUom(entity)}
           </span>
           ${isPrimary && this.renderStateTime() || ''}
@@ -356,7 +360,7 @@ class MiniGraphCard extends LitElement {
     const { show_legend_state = false } = this.config.entities[index];
 
     if (show_legend_state) {
-      legend += ` (${this.computeState(state)}`;
+      legend += ` (${this.computeState(state, index)}`;
       if (!(['unavailable'].includes(state))) {
         const uom = this.computeUom(index);
         if (!(['%', ''].includes(uom)))
@@ -628,7 +632,7 @@ class MiniGraphCard extends LitElement {
           <div class="info__item">
             <span class="info__item__type">${entry.type}</span>
             <span class="info__item__value">
-              ${this.computeState(entry.state)} ${this.computeUom(0)}
+              ${this.computeState(entry.state, 0)} ${this.computeUom(0)}
             </span>
             <span class="info__item__time">
               ${entry.type !== 'avg' ? getTime(new Date(entry.last_changed), this.config.format, this._hass.language) : ''}
@@ -725,7 +729,7 @@ class MiniGraphCard extends LitElement {
     );
   }
 
-  computeState(inState) {
+  computeState(inState, index) {
     if (this.config.state_map.length > 0) {
       const stateMap = Number.isInteger(inState)
         ? this.config.state_map[inState]
@@ -738,30 +742,92 @@ class MiniGraphCard extends LitElement {
       }
     }
 
-    let state;
-    if (typeof inState === 'string') {
-      state = parseFloat(inState.replace(/,/g, '.'));
-    } else {
-      state = Number(inState);
-    }
-    const dec = this.config.decimals;
-    const value_factor = 10 ** this.config.value_factor;
-
-    if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-      return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
-    }
-
-    const x = 10 ** dec;
-    return this.numberFormat(
-      (Math.round(state * value_factor * x) / x).toFixed(dec),
-      this._hass.language, dec,
+    let dec = this.config.decimals;
+    const value_factor = 10 ** (
+      this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
+        ? this.config.value_factor
+        : 0
     );
-  }
 
-  numberFormat(num, language, dec) {
-    if (!Number.isNaN(Number(num)) && Intl)
-      return new Intl.NumberFormat(language, { minimumFractionDigits: dec }).format(Number(num));
-    return num.toString();
+    let formattedState;
+    const entityId = (index !== undefined && index >= 0) ? this.entity[index].entity_id : undefined;
+    if (!Number.isNaN(Number(inState))) {
+      let num = inState * value_factor;
+      if (dec === undefined || Number.isNaN(dec)) {
+        if (entityId !== undefined) {
+          // for state, attribute's value & extrema/average
+          formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
+          const nativeUom = this.entity[index].attributes.unit_of_measurement || '';
+          console.log('nativeUom: %s', nativeUom);
+          if (nativeUom !== undefined && nativeUom !== '') {
+            formattedState = (formattedState.split(nativeUom))[0].trim();
+            console.log('formattedState w/o uom: %s', formattedState);
+          }
+          console.log('no dec -> stock: %s', formattedState);
+        } else {
+          // for Y-axis labels
+          // eslint-disable-next-line no-lonely-if
+          if (Intl) {
+            dec = 2;
+            const x = 10 ** dec;
+            num = Math.round(num * x) / x;
+            formattedState = new Intl.NumberFormat(this._hass.language).format(Number(num));
+            console.log('no dec -> Intl: %s', formattedState);
+          } else {
+            formattedState = inState.toString();
+            console.log('no dec, !Intl -> toString: %s', formattedState);
+          }
+
+          // const formatOptions = (num >= 1 || num <= -1)
+          //   ? undefined
+          //   : {
+          //     // show the first significant digit for tiny values
+          //     maximumFractionDigits: Math.max(
+          //       2,
+          //       -Math.floor(Math.log10(Math.abs(num % 1 || 1))),
+          //     ),
+          //   };
+          // const label = formatNumber(
+          //   num,
+          //   this._hass.locale,
+          //   formatOptions,
+          // );
+          // formattedState = label;
+        }
+      } else {
+        const x = 10 ** dec;
+        num = (Math.round(num * x) / x).toFixed(dec);
+        if (entityId !== undefined) {
+          // for state, attribute's value & extrema/average
+          formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
+          console.log('dec -> stock: %s', formattedState);
+        } else {
+          // for Y-axis labels
+          // eslint-disable-next-line no-lonely-if
+          if (Intl) {
+            formattedState = new Intl.NumberFormat(
+              this._hass.language, { minimumFractionDigits: dec },
+            ).format(Number(num));
+            console.log('dec -> Intl: %s', formattedState);
+          } else {
+            formattedState = inState.toString();
+            console.log('dec, !Intl -> toString: %s', formattedState);
+          }
+        }
+      }
+    } else {
+      // eslint-disable-next-line no-lonely-if
+      if (entityId !== undefined) {
+        // for "unavailable/unknown"
+        formattedState = this._hass.formatEntityState(this._hass.states[entityId], inState);
+        console.log('isNaN -> stock: %s', formattedState);
+      } else {
+        // for non-numeric w/o state_map
+        formattedState = inState.toString();
+        console.log('isNaN -> toString: %s', formattedState);
+      }
+    }
+    return formattedState;
   }
 
   updateOnInterval() {

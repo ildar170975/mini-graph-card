@@ -214,6 +214,9 @@ const style = css`
   .state--small .state__uom {
     flex: 1;
   }
+  .state__uom.uom--hidden {
+    display: none;
+  }
   .state__time {
     font-size: .95rem;
     font-weight: 500;
