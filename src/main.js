@@ -740,8 +740,7 @@ class MiniGraphCard extends LitElement {
     );
 
     let formattedState;
-    const entityId = this.entity[index].entity_id;
-    console.log('entityId: %s', entityId);
+    const entityId = index !== undefined ? this.entity[index].entity_id : undefined;
     if (!Number.isNaN(Number(state)) && Intl) {
       let num = state * value_factor;
       if (dec === undefined || Number.isNaN(dec)) {
