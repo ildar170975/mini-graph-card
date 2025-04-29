@@ -746,20 +746,22 @@ class MiniGraphCard extends LitElement {
     );
 
     let formattedState;
-    const entityId = index !== undefined ? this.entity[index].entity_id : undefined;
+    const entityId = (index !== undefined && index >= 0) ? this.entity[index].entity_id : undefined;
     if (!Number.isNaN(Number(inState))) {
       let num = inState * value_factor;
       if (dec === undefined || Number.isNaN(dec)) {
         if (entityId !== undefined) {
+          // for state, attribute's value & extrema/average
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
           const nativeUom = this.entity[index].attributes.unit_of_measurement || '';
           console.log('nativeUom: %s', nativeUom);
-          if (nativeUom !== '') {
+          if (nativeUom !== undefined && nativeUom !== '') {
             formattedState = (formattedState.split(nativeUom))[0].trim();
             console.log('formattedState w/o uom: %s', formattedState);
           }
           console.log('no dec -> stock: %s', formattedState);
         } else {
+          // for Y-axis labels
           // eslint-disable-next-line no-lonely-if
           if (Intl) {
             dec = 2;
@@ -771,14 +773,17 @@ class MiniGraphCard extends LitElement {
             formattedState = inState.toString();
             console.log('no dec, !Intl -> toString: %s', formattedState);
           }
+          
         }
       } else {
         const x = 10 ** dec;
         num = (Math.round(num * x) / x).toFixed(dec);
         if (entityId !== undefined) {
+          // for state, attribute's value & extrema/average
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
           console.log('dec -> stock: %s', formattedState);
         } else {
+          // for Y-axis labels
           // eslint-disable-next-line no-lonely-if
           if (Intl) {
             formattedState = new Intl.NumberFormat(
@@ -794,9 +799,11 @@ class MiniGraphCard extends LitElement {
     } else {
       // eslint-disable-next-line no-lonely-if
       if (entityId !== undefined) {
+        // for "unavailable/unknown"
         formattedState = this._hass.formatEntityState(this._hass.states[entityId], inState);
         console.log('isNaN -> stock: %s', formattedState);
       } else {
+        // for non-numeric w/o state_map
         formattedState = inState.toString();
         console.log('isNaN -> toString: %s', formattedState);
       }
