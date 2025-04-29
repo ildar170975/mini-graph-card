@@ -8,7 +8,7 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
-import formatNumber from './formatNumber';
+import formatNumber from './formatNumber.ts';
 import './initialize';
 import { version } from '../package.json';
 
