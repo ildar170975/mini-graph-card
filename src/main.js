@@ -8,7 +8,7 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
-import formatNumber from './formatNumber.ts';
+// import formatNumber from './formatNumber.ts';
 import './initialize';
 import { version } from '../package.json';
 
@@ -775,21 +775,21 @@ class MiniGraphCard extends LitElement {
             console.log('no dec, !Intl -> toString: %s', formattedState);
           }
 
-          const formatOptions = (num >= 1 || num <= -1)
-            ? undefined
-            : {
-              // show the first significant digit for tiny values
-              maximumFractionDigits: Math.max(
-                2,
-                -Math.floor(Math.log10(Math.abs(num % 1 || 1))),
-              ),
-            };
-          const label = formatNumber(
-            num,
-            this._hass.locale,
-            formatOptions,
-          );
-          formattedState = label;
+          // const formatOptions = (num >= 1 || num <= -1)
+          //   ? undefined
+          //   : {
+          //     // show the first significant digit for tiny values
+          //     maximumFractionDigits: Math.max(
+          //       2,
+          //       -Math.floor(Math.log10(Math.abs(num % 1 || 1))),
+          //     ),
+          //   };
+          // const label = formatNumber(
+          //   num,
+          //   this._hass.locale,
+          //   formatOptions,
+          // );
+          // formattedState = label;
         }
       } else {
         const x = 10 ** dec;
