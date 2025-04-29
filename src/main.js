@@ -8,6 +8,7 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
+impoty formatNumber from './formatNumber';
 import './initialize';
 import { version } from '../package.json';
 
@@ -773,7 +774,6 @@ class MiniGraphCard extends LitElement {
             formattedState = inState.toString();
             console.log('no dec, !Intl -> toString: %s', formattedState);
           }
-          
         }
       } else {
         const x = 10 ** dec;
