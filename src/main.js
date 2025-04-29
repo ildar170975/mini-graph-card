@@ -774,6 +774,24 @@ class MiniGraphCard extends LitElement {
             formattedState = inState.toString();
             console.log('no dec, !Intl -> toString: %s', formattedState);
           }
+          //start
+          const formatOptions =
+            num >= 1 || num <= -1
+              ? undefined
+              : {
+                  // show the first significant digit for tiny values
+                  maximumFractionDigits: Math.max(
+                    2,
+                    -Math.floor(Math.log10(Math.abs(num % 1 || 1)))
+                  ),
+                };
+          const label = formatNumber(
+            num,
+            this._hass.locale,
+            formatOptions
+          );
+          formattedState = label;
+          //end
         }
       } else {
         const x = 10 ** dec;
