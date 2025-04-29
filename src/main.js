@@ -750,6 +750,7 @@ class MiniGraphCard extends LitElement {
           console.log('nativeUom: %s', nativeUom);
           if (nativeUom !== '') {
             const arr = formattedState.split(nativeUom);
+            console.log(arr);
           }
           console.log('stock (default): %s', formattedState);
         } else {
