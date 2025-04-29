@@ -1,43 +1,43 @@
 // adapted from HomeAssistant frontend
 
 export const NumberFormat = {
-  language = "language",
-  system = "system",
-  comma_decimal = "comma_decimal",
-  decimal_comma = "decimal_comma",
-  space_comma = "space_comma",
-  none = "none",
+  language: "language",
+  system: "system",
+  comma_decimal: "comma_decimal",
+  decimal_comma: "decimal_comma",
+  space_comma: "space_comma",
+  none: "none",
 }
 
 export const TimeFormat = {
-  language = "language",
-  system = "system",
-  am_pm = "12",
-  twenty_four = "24",
+  language: "language",
+  system: "system",
+  am_pm: "12",
+  twenty_four: "24",
 }
 
 export const TimeZone = {
-  local = "local",
-  server = "server",
+  local: "local",
+  server: "server",
 }
 
 export const DateFormat = {
-  language = "language",
-  system = "system",
-  DMY = "DMY",
-  MDY = "MDY",
-  YMD = "YMD",
+  language: "language",
+  system: "system",
+  DMY: "DMY",
+  MDY: "MDY",
+  YMD: "YMD",
 }
 
 export const FirstWeekday = {
-  language = "language",
-  monday = "monday",
-  tuesday = "tuesday",
-  wednesday = "wednesday",
-  thursday = "thursday",
-  friday = "friday",
-  saturday = "saturday",
-  sunday = "sunday",
+  language: "language",
+  monday: "monday",
+  tuesday: "tuesday",
+  wednesday: "wednesday",
+  thursday: "thursday",
+  friday: "friday",
+  saturday: "saturday",
+  sunday: "sunday",
 }
 
 export interface FrontendLocaleData {
