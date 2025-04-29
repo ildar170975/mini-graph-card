@@ -747,7 +747,7 @@ class MiniGraphCard extends LitElement {
       if (dec === undefined || Number.isNaN(dec)) {
         if (entityId !== undefined) {
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
-          const nativeUom = this.entity[index].attributes?.unit_of_measurement || '??';
+          const nativeUom = this.entity[index].attributes.unit_of_measurement || '??';
           console.log('nativeUom: %s', nativeUom);
           if (nativeUom !== '') {
             console.log('formattedState typeof: %s', typeof formattedState);
