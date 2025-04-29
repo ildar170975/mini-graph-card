@@ -715,7 +715,7 @@ class MiniGraphCard extends LitElement {
       this.config.entities[index].unit
       || this.config.unit
       || (
-        !this.config.entities[index].attribute
+        this.config.entities[index].attribute !== undefined
           ? (this.entity[index].attributes.unit_of_measurement || '')
           : ''
       )
