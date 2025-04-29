@@ -301,7 +301,7 @@ class MiniGraphCard extends LitElement {
           style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entity)}` : ''}>
           ${entityConfig.show_indicator ? this.renderIndicator(value, entity) : ''}
           <span class="state__value ellipsis">
-            ${this.computeState(value, this.config.entities[id].entity)}
+            ${this.computeState(value, entity)}
           </span>
           <span
             class=${classMap({ state__uom: true, ellipsis: true, 'uom--hidden': value === 'unavailable' })}
@@ -358,7 +358,7 @@ class MiniGraphCard extends LitElement {
     const { show_legend_state = false } = this.config.entities[index];
 
     if (show_legend_state) {
-      legend += ` (${this.computeState(state, this.config.entities[index].entity)}`;
+      legend += ` (${this.computeState(state, index)}`;
       if (state !== 'unavailable') {
         if (this.computeUom(index) !== '%')
           legend += ' ';
@@ -630,7 +630,7 @@ class MiniGraphCard extends LitElement {
           <div class="info__item">
             <span class="info__item__type">${entry.type}</span>
             <span class="info__item__value">
-              ${this.computeState(entry.state)} ${this.computeUom(0)}
+              ${this.computeState(entry.state, 0)} ${this.computeUom(0)}
             </span>
             <span class="info__item__time">
               ${entry.type !== 'avg' ? getTime(new Date(entry.last_changed), this.config.format, this._hass.language) : ''}
@@ -718,7 +718,7 @@ class MiniGraphCard extends LitElement {
     );
   }
 
-  computeState(inState, entityId) {
+  computeState(inState, index) {
     if (this.config.state_map.length > 0) {
       const stateMap = Number.isInteger(inState)
         ? this.config.state_map[inState]
@@ -731,12 +731,6 @@ class MiniGraphCard extends LitElement {
       }
     }
 
-    // let state;
-    // if (typeof inState === 'string') {
-    //   state = parseFloat(inState.replace(/,/g, '.'));
-    // } else {
-    //   state = Number(inState);
-    // }
     const state = inState;
     let dec = this.config.decimals;
     const value_factor = 10 ** (
@@ -746,11 +740,18 @@ class MiniGraphCard extends LitElement {
     );
 
     let formattedState;
+    const entityId = this.entity[index].attributes.entity_id;
+    console.log('entityId: %s', entityId);
     if (!Number.isNaN(Number(state)) && Intl) {
       let num = state * value_factor;
       if (dec === undefined || Number.isNaN(dec)) {
         if (entityId !== undefined) {
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
+          const nativeUom = this.entity[index].attributes.unit_of_measurement;
+          console.log('nativeUom: %s', nativeUom);
+          if (nativeUom !== '') {
+            formattedState = formattedState.split(nativeUom)[0];
+          }
           console.log('stock (default): %s', formattedState);
         } else {
           dec = 2;
