@@ -749,7 +749,7 @@ class MiniGraphCard extends LitElement {
           const nativeUom = this.entity[index].attributes.unit_of_measurement || '';
           console.log('nativeUom: %s', nativeUom);
           if (nativeUom !== '') {
-            formattedState = formattedState.split(nativeUom)[0];
+            const arr = formattedState.split(nativeUom);
           }
           console.log('stock (default): %s', formattedState);
         } else {
