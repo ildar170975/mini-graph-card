@@ -363,8 +363,7 @@ class MiniGraphCard extends LitElement {
         const uom = this.computeUom(index);
         if (uom !== '%' && uom !== '')
           legend += ' ';
-        else
-          legend += `${uom}`;
+        legend += `${uom}`;
       }
       legend += ')';
     }
