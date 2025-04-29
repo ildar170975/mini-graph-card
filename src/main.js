@@ -765,7 +765,7 @@ class MiniGraphCard extends LitElement {
             formattedState = new Intl.NumberFormat(this._hass.language).format(Number(num));
             console.log('no dec -> Intl: %s', formattedState);
           } else {
-            formattedState = state.toString();
+            formattedState = inState.toString();
             console.log('no dec, !Intl -> toString: %s', formattedState);
           }
         }
@@ -783,7 +783,7 @@ class MiniGraphCard extends LitElement {
             ).format(Number(num));
             console.log('dec -> Intl: %s', formattedState);
           } else {
-            formattedState = state.toString();
+            formattedState = inState.toString();
             console.log('dec, !Intl -> toString: %s', formattedState);
           }
         }
