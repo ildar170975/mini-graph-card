@@ -740,14 +740,14 @@ class MiniGraphCard extends LitElement {
     );
 
     let formattedState;
-    const entityId = this.entity[index].attributes.entity_id;
+    const entityId = this.entity[index].entity_id;
     console.log('entityId: %s', entityId);
     if (!Number.isNaN(Number(state)) && Intl) {
       let num = state * value_factor;
       if (dec === undefined || Number.isNaN(dec)) {
         if (entityId !== undefined) {
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
-          const nativeUom = this.entity[index].attributes.unit_of_measurement;
+          const nativeUom = this.entity[index].attributes.unit_of_measurement ?? '??';
           console.log('nativeUom: %s', nativeUom);
           if (nativeUom !== '') {
             console.log('formattedState typeof: %s', typeof formattedState);
