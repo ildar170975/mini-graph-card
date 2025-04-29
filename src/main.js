@@ -360,12 +360,13 @@ class MiniGraphCard extends LitElement {
     if (show_legend_state) {
       legend += ` (${this.computeState(state, index)}`;
       if (state !== 'unavailable') {
-        if (this.computeUom(index) !== '%')
+        const uom = this.computeUom(index);
+        if (uom !== '%' && uom !== '')
           legend += ' ';
-        legend += `${this.computeUom(index)})`;
-      } else {
-        legend += ')';
+        else
+          legend += `${uom}`;
       }
+      legend += ')';
     }
 
     return legend;
@@ -713,8 +714,11 @@ class MiniGraphCard extends LitElement {
     return (
       this.config.entities[index].unit
       || this.config.unit
-      || this.entity[index].attributes.unit_of_measurement
-      || ''
+      || (
+        !this.config.entities[index].attribute
+          ? (this.entity[index].attributes.unit_of_measurement || '')
+          : ''
+      )
     );
   }
 
@@ -731,7 +735,6 @@ class MiniGraphCard extends LitElement {
       }
     }
 
-    const state = inState;
     let dec = this.config.decimals;
     const value_factor = 10 ** (
       this.config.value_factor !== undefined && !Number.isNaN(this.config.value_factor)
@@ -741,8 +744,8 @@ class MiniGraphCard extends LitElement {
 
     let formattedState;
     const entityId = index !== undefined ? this.entity[index].entity_id : undefined;
-    if (!Number.isNaN(Number(state)) && Intl) {
-      let num = state * value_factor;
+    if (!Number.isNaN(Number(inState))) {
+      let num = inState * value_factor;
       if (dec === undefined || Number.isNaN(dec)) {
         if (entityId !== undefined) {
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
@@ -752,35 +755,47 @@ class MiniGraphCard extends LitElement {
             formattedState = (formattedState.split(nativeUom))[0].trim();
             console.log('formattedState w/o uom: %s', formattedState);
           }
-          console.log('stock (default): %s', formattedState);
+          console.log('no dec -> stock: %s', formattedState);
         } else {
-          dec = 2;
-          const x = 10 ** dec;
-          num = Math.round(num * x) / x;
-          formattedState = new Intl.NumberFormat(this._hass.language).format(Number(num));
-          console.log('Intl (default): %s', formattedState);
+          // eslint-disable-next-line no-lonely-if
+          if (Intl) {
+            dec = 2;
+            const x = 10 ** dec;
+            num = Math.round(num * x) / x;
+            formattedState = new Intl.NumberFormat(this._hass.language).format(Number(num));
+            console.log('no dec -> Intl: %s', formattedState);
+          } else {
+            formattedState = state.toString();
+            console.log('no dec, !Intl -> toString: %s', formattedState);
+          }
         }
       } else {
         const x = 10 ** dec;
         num = (Math.round(num * x) / x).toFixed(dec);
         if (entityId !== undefined) {
           formattedState = this._hass.formatEntityState(this._hass.states[entityId], num);
-          console.log('stock (dec): %s', formattedState);
+          console.log('dec -> stock: %s', formattedState);
         } else {
-          formattedState = new Intl.NumberFormat(
-            this._hass.language, { minimumFractionDigits: dec },
-          ).format(Number(num));
-          console.log('Intl (dec): %s', formattedState);
+          // eslint-disable-next-line no-lonely-if
+          if (Intl) {
+            formattedState = new Intl.NumberFormat(
+              this._hass.language, { minimumFractionDigits: dec },
+            ).format(Number(num));
+            console.log('dec -> Intl: %s', formattedState);
+          } else {
+            formattedState = state.toString();
+            console.log('dec, !Intl -> toString: %s', formattedState);
+          }
         }
       }
     } else {
       // eslint-disable-next-line no-lonely-if
       if (entityId !== undefined) {
-        formattedState = this._hass.formatEntityState(this._hass.states[entityId], state);
-        console.log('stock (isNaN): %s', formattedState);
+        formattedState = this._hass.formatEntityState(this._hass.states[entityId], inState);
+        console.log('isNaN -> stock: %s', formattedState);
       } else {
-        formattedState = state.toString();
-        console.log('stock (toString): %s', formattedState);
+        formattedState = inState.toString();
+        console.log('isNaN -> toString: %s', formattedState);
       }
     }
     return formattedState;
