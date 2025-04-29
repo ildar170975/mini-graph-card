@@ -41,12 +41,12 @@ export const FirstWeekday = {
 }
 
 export const FrontendLocaleData = {
-  language: string;
-  number_format: NumberFormat;
-  time_format: TimeFormat;
-  date_format: DateFormat;
-  first_weekday: FirstWeekday;
-  time_zone: TimeZone;
+  language: string,
+  number_format: NumberFormat,
+  time_format: TimeFormat,
+  date_format: DateFormat,
+  first_weekday: FirstWeekday,
+  time_zone: TimeZone,
 }
 
 const numberFormatToLocale = (
