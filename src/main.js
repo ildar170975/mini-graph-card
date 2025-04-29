@@ -8,7 +8,7 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
-impoty formatNumber from './formatNumber';
+import formatNumber from './formatNumber';
 import './initialize';
 import { version } from '../package.json';
 
