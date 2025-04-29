@@ -781,13 +781,13 @@ class MiniGraphCard extends LitElement {
               // show the first significant digit for tiny values
               maximumFractionDigits: Math.max(
                 2,
-                -Math.floor(Math.log10(Math.abs(num % 1 || 1)))
+                -Math.floor(Math.log10(Math.abs(num % 1 || 1))),
               ),
             };
           const label = formatNumber(
             num,
             this._hass.locale,
-            formatOptions
+            formatOptions,
           );
           formattedState = label;
         }
