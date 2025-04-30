@@ -101,12 +101,12 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-// const initializeHour24 = (hass) => {
-//   if (hass && hass !== undefined && hass.locale.time_format === '24')
-//     return true;
-//   else
-//     return false;
-// };
+const initializeHour24 = (hass) => {
+  if (hass && hass !== undefined)
+    return hass.locale.time_format === '24';
+  else
+    return false;
+};
 
 export default (config, hass) => {
   if (!Array.isArray(config.entities))
@@ -118,7 +118,7 @@ export default (config, hass) => {
 
   const conf = {
     animate: false,
-    hour24: hass && hass !== undefined && hass.locale.time_format === '24',
+    hour24: initializeHour24(hass),
     font_size: FONT_SIZE,
     font_size_header: FONT_SIZE_HEADER,
     height: 100,
