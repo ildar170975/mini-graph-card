@@ -101,7 +101,7 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-getHour24(hass) {
+const initializeHour24 = (hass) => {
   if (hass) {
     hass.locale.time_format === '24'
       ? return true;
@@ -120,7 +120,7 @@ export default (config, hass) => {
 
   const conf = {
     animate: false,
-    hour24: getHour24(hass),
+    hour24: initializeHour24(hass),
     font_size: FONT_SIZE,
     font_size_header: FONT_SIZE_HEADER,
     height: 100,
