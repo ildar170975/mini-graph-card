@@ -118,7 +118,7 @@ export default (config, hass) => {
 
   const conf = {
     animate: false,
-    hour24: hass && hass !== undefined && hass.locale.time_format === '24', //initializeHour24(hass),
+    hour24: hass && hass !== undefined && hass.locale.time_format === '24',
     font_size: FONT_SIZE,
     font_size_header: FONT_SIZE_HEADER,
     height: 100,
