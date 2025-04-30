@@ -101,9 +101,7 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-const getHourFormat = (hour24) => {
-  return hour24 ? { hourCycle: 'h23' } : { hour12: true };
-};
+const getHourFormat = (hour24) => return hour24 ? { hourCycle: 'h23' } : { hour12: true };
 
 const buildConfig = (config) => {
   if (!Array.isArray(config.entities))
@@ -160,7 +158,7 @@ const buildConfig = (config) => {
     conf.color_thresholds_transition,
   );
   const additional = conf.hours_to_show > 24 ? { day: 'numeric', weekday: 'short' } : {};
-  const hourFormat = setHourFormat(conf.hour24);
+  const hourFormat = getHourFormat(conf.hour24);
   conf.format = { ...hourFormat, ...additional };
 
   // override points per hour to mach group_by function
