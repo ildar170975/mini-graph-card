@@ -135,7 +135,7 @@ class MiniGraphCard extends LitElement {
       hour24 = false;
     this.config.hour24 = hour24;
     const hourFormat = getHourFormat(hour24);
-    this.config.format.hourFourmat = { ...hourFormat };
+    this.config.format.hourFourmat = hourFormat;
   }
 
   connectedCallback() {
