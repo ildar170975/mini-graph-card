@@ -105,7 +105,7 @@ const getHourFormat = (hour24) => {
   return hour24 ? { hourCycle: 'h23' } : { hour12: true };
 };
 
-buildConfig = (config) => {
+const buildConfig = (config) => {
   if (!Array.isArray(config.entities))
     throw new Error(`Please provide the "entities" option as a list.\n See ${URL_DOCS}`);
   if (config.line_color_above || config.line_color_below)
