@@ -23,6 +23,7 @@ import {
   getFirstDefinedItem,
   compareArray,
   log,
+  getHourFormat,
 } from './utils';
 
 class MiniGraphCard extends LitElement {
