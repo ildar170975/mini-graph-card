@@ -102,8 +102,6 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-const getHourFormat = hour24 => (hour24 ? { hourCycle: 'h23' } : { hour12: true });
-
 export default (config) => {
   if (!Array.isArray(config.entities))
     throw new Error(`Please provide the "entities" option as a list.\n See ${URL_DOCS}`);
