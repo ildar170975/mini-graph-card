@@ -101,15 +101,6 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-const initializeHour24 = (hass) => {
-  const hour24 = hass
-    ? hass.locale.time_format === '24'
-      ? true
-      : false
-    : false;
-  return hour24;
-}
-
 export default (config, hass) => {
   if (!Array.isArray(config.entities))
     throw new Error(`Please provide the "entities" option as a list.\n See ${URL_DOCS}`);
@@ -120,7 +111,7 @@ export default (config, hass) => {
 
   const conf = {
     animate: false,
-    hour24: initializeHour24(hass),
+    hour24: hass && hass.locale.time_format === '24',
     font_size: FONT_SIZE,
     font_size_header: FONT_SIZE_HEADER,
     height: 100,
