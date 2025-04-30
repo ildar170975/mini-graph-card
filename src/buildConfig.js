@@ -1,4 +1,4 @@
-import { log } from './utils';
+import { log, getHourFormat } from './utils';
 import {
   URL_DOCS,
   FONT_SIZE,
@@ -7,6 +7,7 @@ import {
   DEFAULT_COLORS,
   DEFAULT_SHOW,
 } from './const';
+
 
 /**
  * Starting from the given index, increment the index until an array element with a
@@ -103,7 +104,7 @@ const computeThresholds = (stops, type) => {
 
 const getHourFormat = hour24 => (hour24 ? { hourCycle: 'h23' } : { hour12: true });
 
-const buildConfig = (config) => {
+export default (config) => {
   if (!Array.isArray(config.entities))
     throw new Error(`Please provide the "entities" option as a list.\n See ${URL_DOCS}`);
   if (config.line_color_above || config.line_color_below)
@@ -182,9 +183,4 @@ const buildConfig = (config) => {
   }
 
   return conf;
-};
-
-export {
-  buildConfig,
-  getHourFormat,
 };
