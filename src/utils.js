@@ -27,26 +27,27 @@ const log = (message) => {
   console.warn('mini-graph-card: ', message);
 };
 
-const useAmPm = ((locale: FrontendLocaleData): boolean => {
-  if (
-    locale.time_format === TimeFormat.language ||
-    locale.time_format === TimeFormat.system
-  ) {
-    const testLanguage =
-      locale.time_format === TimeFormat.language ? locale.language : undefined;
-    const test = new Date("January 1, 2023 22:00:00").toLocaleString(
-      testLanguage
-    );
-    return test.includes("10");
-  }
+// const useAmPm = ((locale: FrontendLocaleData): boolean => {
+//   if (
+//     locale.time_format === TimeFormat.language ||
+//     locale.time_format === TimeFormat.system
+//   ) {
+//     const testLanguage =
+//       locale.time_format === TimeFormat.language ? locale.language : undefined;
+//     const test = new Date("January 1, 2023 22:00:00").toLocaleString(
+//       testLanguage
+//     );
+//     return test.includes("10");
+//   }
 
-  return locale.time_format === TimeFormat.am_pm;
-});
+//   return locale.time_format === TimeFormat.am_pm;
+// });
 
-
+const getHourFormat = hour24 => (hour24 ? { hourCycle: 'h23' } : { hour12: true });
 
 export {
   getMin, getAvg, getMax, getTime, getMilli, compress, decompress, log,
   getFirstDefinedItem,
   compareArray,
+  getHourFormat,
 };
