@@ -6,7 +6,7 @@ import { interpolateRgb } from 'd3-interpolate';
 import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
-import { buildConfig, getHourFormat } from './buildConfig';
+import buildConfig from './buildConfig';
 import './initialize';
 import { version } from '../package.json';
 
