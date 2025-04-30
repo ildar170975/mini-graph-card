@@ -101,7 +101,7 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-const getHourFormat = (hour24) => { return hour24 ? { hourCycle: 'h23' } : { hour12: true } };
+const getHourFormat = (hour24) => hour24 ? { hourCycle: 'h23' } : { hour12: true };
 
 const buildConfig = (config) => {
   if (!Array.isArray(config.entities))
