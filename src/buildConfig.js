@@ -105,7 +105,7 @@ const initializeHour24 = (hass) => {
   if (hass) {
     hass.locale.time_format === '24'
       ? return true;
-      : else false;
+      : return false;
   } else
     return false;
 }
