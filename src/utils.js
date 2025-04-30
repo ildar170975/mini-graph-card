@@ -29,10 +29,10 @@ const log = (message) => {
 
 const getHour24 = (locale) => {
   const TimeFormat = {
-    language = "language",
-    system = "system",
-    am_pm = "12",
-    twenty_four = "24",
+    language: "language",
+    system: "system",
+    am_pm: "12",
+    twenty_four: "24",
   };
   if ([TimeFormat.language, TimeFormat.system].includes(locale.time_format)) {
     const testLanguage = locale.time_format === TimeFormat.language
