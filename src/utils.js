@@ -38,8 +38,8 @@ const getHour24 = (locale) => {
     const testLanguage = locale.time_format === TimeFormat.language
       ? locale.language
       : undefined;
-    const test = new Date("January 1, 2020 22:00:00").toLocaleString(testLanguage);
-    return !test.includes("10");
+    const test = new Date('January 1, 2020 22:00:00').toLocaleString(testLanguage);
+    return !test.includes('10');
   }
   return locale.time_format === TimeFormat.twenty_four;
 };
@@ -50,5 +50,5 @@ export {
   getMin, getAvg, getMax, getTime, getMilli, compress, decompress, log,
   getFirstDefinedItem,
   compareArray,
-  getHourFormat,
+  getHourFormat, getHour24,
 };
