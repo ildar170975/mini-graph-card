@@ -102,12 +102,12 @@ const computeThresholds = (stops, type) => {
 };
 
 const initializeHour24 = (hass) => {
-  if (hass) {
-    hass.locale.time_format === '24'
-      ? return true;
-      : return false;
-  } else
-    return false;
+  const hour24 = hass
+    ? hass.locale.time_format === '24'
+      ? true
+      : false
+    : false;
+  return hour24;
 }
 
 export default (config, hass) => {
