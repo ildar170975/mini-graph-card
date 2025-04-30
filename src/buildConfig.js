@@ -101,11 +101,11 @@ const computeThresholds = (stops, type) => {
   }
 };
 
-export const setHourFormat = (hour24) => {
+const getHourFormat = (hour24) => {
   return hour24 ? { hourCycle: 'h23' } : { hour12: true };
 };
 
-export buildConfig = (config) => {
+buildConfig = (config) => {
   if (!Array.isArray(config.entities))
     throw new Error(`Please provide the "entities" option as a list.\n See ${URL_DOCS}`);
   if (config.line_color_above || config.line_color_below)
