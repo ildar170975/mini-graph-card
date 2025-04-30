@@ -43,6 +43,17 @@ const log = (message) => {
 //   return locale.time_format === TimeFormat.am_pm;
 // });
 
+
+const getHour24 = (locale) => {
+  const TimeFormat = {
+    language = "language",
+    system = "system",
+    am_pm = "12",
+    twenty_four = "24",
+  };
+  return locale.time_format === TimeFormat.twenty_four;
+};
+
 const getHourFormat = hour24 => (hour24 ? { hourCycle: 'h23' } : { hour12: true });
 
 export {
