@@ -23,7 +23,7 @@ import {
   getFirstDefinedItem,
   compareArray,
   log,
-  getHourFormat,
+  getHourFormat, getHour24,
 } from './utils';
 
 class MiniGraphCard extends LitElement {
@@ -134,7 +134,7 @@ class MiniGraphCard extends LitElement {
     if (this.updateHour24) {
       let hour24;
       if (this._hass)
-        hour24 = this._hass.locale.time_format === '24';
+        hour24 = getHour24(this._hass.locale.time_format);
       else
         hour24 = false;
       this.config.hour24 = hour24;
