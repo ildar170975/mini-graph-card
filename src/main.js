@@ -135,9 +135,9 @@ class MiniGraphCard extends LitElement {
       hour24 = false;
     this.config.hour24 = hour24;
     const hourFormat = getHourFormat(hour24);
-    this.config.format.hourFourmat =  { ...hourFormat };
+    this.config.format.hourFourmat = { ...hourFormat };
   }
-  
+
   connectedCallback() {
     super.connectedCallback();
     if (this.config.update_interval) {
@@ -192,7 +192,7 @@ class MiniGraphCard extends LitElement {
     if (this.config.entities.some((_, index) => this.entity[index] === undefined)) {
       return this.renderWarnings();
     }
-    updateOptionsFromLocale();
+    this.updateOptionsFromLocale();
     return html`
       <ha-card
         class="flex"
