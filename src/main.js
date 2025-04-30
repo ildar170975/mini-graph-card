@@ -6,7 +6,7 @@ import { interpolateRgb } from 'd3-interpolate';
 import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
-import buildConfig from './buildConfig';
+import { buildConfig, setHourFormat } from './buildConfig';
 import './initialize';
 import { version } from '../package.json';
 
@@ -134,7 +134,8 @@ class MiniGraphCard extends LitElement {
    else
      hour24 = false;
    this.config.hour24 = hour24;
-   
+   const hourFormat = setHourFormat(hour24);
+   this.config.format.hourFourmat =  { ...hourFormat };
  }
   
   connectedCallback() {
