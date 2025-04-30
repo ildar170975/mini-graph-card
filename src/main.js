@@ -134,12 +134,11 @@ class MiniGraphCard extends LitElement {
     if (this.updateHour24) {
       let hour24;
       if (this._hass)
-        hour24 = getHour24(this._hass.locale.time_format);
+        hour24 = getHour24(this._hass.locale);
       else
         hour24 = false;
       this.config.hour24 = hour24;
-      const hourFormat = getHourFormat(hour24);
-      this.config.format = hourFormat;
+      this.config.format = getHourFormat(hour24);
     }
   }
 
