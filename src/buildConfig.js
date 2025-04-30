@@ -185,3 +185,8 @@ buildConfig = (config) => {
 
   return conf;
 };
+
+export {
+  buildConfig,
+  getHourFormat,
+};
