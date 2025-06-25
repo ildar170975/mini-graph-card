@@ -4,7 +4,7 @@ const isAssumingCssVar = value => (typeof value === 'string' && value.trim().sta
 
 const convertCssVarToColor = (value) => {
   const name = value.trim().replace('var(', '').replace(')', '');
-  return window
+  return (window && document)
     ? window.getComputedStyle(document.querySelector(':host')).getPropertyValue(name)
     : '#000000';
 };
