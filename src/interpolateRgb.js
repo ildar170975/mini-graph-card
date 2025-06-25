@@ -1,4 +1,8 @@
 import { interpolateRgb } from 'd3-interpolate';
+import {
+  isAssumingCssVar,
+  convertCssVarToColor,
+} from './utils';
 
 export default (start, end, y) => {
   const _start = isAssumingCssVar(start)
