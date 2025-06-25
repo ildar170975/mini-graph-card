@@ -1,10 +1,13 @@
 import { interpolateRgb } from 'd3-interpolate';
 
-const isAssumingCssVar = color => (typeof color === 'string' && color.trim().startsWith('var(--'));
+const isAssumingCssVar = value => (typeof value === 'string' && value.trim().startsWith('var(--'));
 
-const convertCssVarToColor = color => (window
-  ? window.getComputedStyle(document.querySelector(':host')).getPropertyValue(color)
-  : '#000000');
+const convertCssVarToColor = value => {
+  const name = value.trim().replace('var(','').replace(')','');
+  return window
+    ? window.getComputedStyle(document.querySelector(':host')).getPropertyValue(name)
+    : '#000000';
+}
 
 export default (start, end, y) => {
   const _start = isAssumingCssVar(start)
