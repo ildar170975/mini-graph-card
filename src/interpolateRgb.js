@@ -4,8 +4,9 @@ const isAssumingCssVar = value => (typeof value === 'string' && value.trim().sta
 
 const convertCssVarToColor = (value) => {
   const name = value.trim().replace('var(', '').replace(')', '');
-  return window // eslint-disable-next-line no-undef
-    ? window.getComputedStyle(document.querySelector(':host')).getPropertyValue(name)
+  const element = document.body; // eslint-disable-line no-undef
+  return window
+    ? window.getComputedStyle(element).getPropertyValue(name)
     : '#000000';
 };
 
