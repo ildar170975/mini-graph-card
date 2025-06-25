@@ -1,15 +1,15 @@
 import { interpolateRgb } from 'd3-interpolate';
 import {
   isAssumingCssVar,
-  convertCssVarToColor,
+  convertCssVarToValue,
 } from './utils';
 
 export default (start, end, y) => {
   const _start = isAssumingCssVar(start)
-    ? convertCssVarToColor(start)
+    ? convertCssVarToValue(start)
     : start;
   const _end = isAssumingCssVar(end)
-    ? convertCssVarToColor(end)
+    ? convertCssVarToValue(end)
     : end;
   return interpolateRgb(_start, _end)(y);
 };
