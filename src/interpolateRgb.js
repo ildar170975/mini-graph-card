@@ -4,7 +4,9 @@ const isAssumingCssVar = value => (typeof value === 'string' && value.trim().sta
 
 const convertCssVarToColor = (value) => {
   const name = value.trim().replace('var(', '').replace(')', '');
-  const element = document.body; // eslint-disable-line no-undef
+  let element = document.querySelector('ha-card');
+  if (!element)
+    element = document.body;
   return window
     ? window.getComputedStyle(element).getPropertyValue(name)
     : '#000000';
