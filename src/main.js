@@ -681,7 +681,7 @@ class MiniGraphCard extends LitElement {
       const c2 = color_thresholds[index - 1];
       if (c2) {
         const factor = (c2.value - state) / (c2.value - c1.value);
-        intColor = interpolateRgb(c2.color, c1.color)(factor);
+        intColor = interpolateRgb(c2.color, c1.color, factor);
       } else {
         intColor = index
           ? color_thresholds[color_thresholds.length - 1].color
