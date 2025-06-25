@@ -1,6 +1,6 @@
 import { interpolateRgb } from 'd3-interpolate';
 
-const isAssumingCssVar = color => (typeof color === "string" && color.trim().startsWith("var(--"));
+const isAssumingCssVar = color => (typeof color === 'string' && color.trim().startsWith('var(--'));
 
 const convertCssVarToColor = color => getComputedStyle(document.documentElement).getPropertyValue(color);
 
