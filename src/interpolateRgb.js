@@ -7,7 +7,7 @@ const convertCssVarToColor = (value) => {
   return window
     ? window.getComputedStyle(document.querySelector(':host')).getPropertyValue(name)
     : '#000000';
-}
+};
 
 export default (start, end, y) => {
   const _start = isAssumingCssVar(start)
