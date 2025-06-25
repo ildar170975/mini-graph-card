@@ -1,4 +1,4 @@
-import { interpolateRgb } from 'd3-interpolate';
+import interpolateRgb from './interpolateRgb';
 import {
   X, Y, V,
   ONE_HOUR,
