@@ -7,11 +7,11 @@ const convertCssVarToColor = color => window
   .getPropertyValue(color);
 
 export default (start, end, y) => {
-  if (isAssumingCssVar(start)) {
-    start = convertCssVarToColor(start);
-  }
-  if (isAssumingCssVar(end)) {
-    end = convertCssVarToColor(end);
-  }
-  return interpolateRgb(start, end)(y);
+  const _start = isAssumingCssVar(start)
+    ? convertCssVarToColor(start)
+    : start;
+  const _end = isAssumingCssVar(end)
+    ? convertCssVarToColor(end)
+    : end;
+  return interpolateRgb(_start, _end)(y);
 };
