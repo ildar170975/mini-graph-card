@@ -277,7 +277,7 @@ class MiniGraphCard extends LitElement {
     const entityConfig = this.config.entities[id];
     if (this.config.show.state === 'last') {
       if (this.config.show.graph === 'bar') {
-        return this.points[id][this.bars[id].length - 1].value;
+        return this.bars[id][this.bars[id].length - 1].value;
       } else {
         return this.points[id][this.points[id].length - 1][V];
       }
