@@ -102,7 +102,8 @@ We recommend looking at the [Example usage section](#example-usage) to understan
 | color_thresholds | list |  | v0.2.3 | Set thresholds for dynamic graph colors, see [Line color object](#line-color-object).
 | color_thresholds_transition | string | `smooth` | v0.4.3 | Color threshold transition, `smooth` or `hard`.
 | decimals | integer |  | v0.0.9 | Specify the exact number of decimals to show for number values, see [Number format](#number-format).
-| decimals_secondary_labels | integer |  | v0.13.0 | Specify the exact number of decimals to show for secondary Y-axis labels, see [Number format](#number-format).
+| decimals_primary_labels | integer |  | v0.14.0 | Specify the exact number of decimals to show for primary Y-axis labels, see [Number format](#number-format).
+| decimals_secondary_labels | integer |  | v0.14.0 | Specify the exact number of decimals to show for secondary Y-axis labels, see [Number format](#number-format).
 | hour24 | boolean | `false` | v0.2.1 | Set to `true` to display times in 24-hour format.
 | font_size | number | `100` | v0.0.3 | Adjust the font size of the state, as percentage of the original size.
 | font_size_header | number | `14` | v0.3.1 | Adjust the font size of the header, size in pixels.
@@ -272,8 +273,9 @@ Options `decimals` defined "card-wide" and/or for some entity are used to set an
 - if "card-wide" `decimals` is defined - this value is used;
 - if `decimals` is defined for the 1st entity - this value is used.
 3. For primary Y-axis labels:
-- if "card-wide" `decimals` option is not defined - a default presentation is used;
-- otherwise - this value is used.
+- if "card-wide" `decimals` & `decimals_primary_labels` options are not defined - a default presentation is used;
+- if "card-wide" `decimals` option is defined - this value is used;
+- if "card-wide" `decimals_primary_labels` option is defined - this value is used.
 4. For secondary Y-axis labels:
 - if "card-wide" `decimals` & `decimals_secondary_labels` options are not defined - a default presentation is used;
 - if "card-wide" `decimals` option is defined - this value is used;
