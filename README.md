@@ -102,7 +102,7 @@ We recommend looking at the [Example usage section](#example-usage) to understan
 | color_thresholds | list |  | v0.2.3 | Set thresholds for dynamic graph colors, see [Line color object](#line-color-object).
 | color_thresholds_transition | string | `smooth` | v0.4.3 | Color threshold transition, `smooth` or `hard`.
 | decimals | integer |  | v0.0.9 | Specify the exact number of decimals to show for number values, see [Number format](#number-format).
-| decimals_secondary | integer |  | v0.13.0 | Specify the exact number of decimals to show for secondary Y-axis labels, see [Number format](#number-format).
+| decimals_secondary_labels | integer |  | v0.13.0 | Specify the exact number of decimals to show for secondary Y-axis labels, see [Number format](#number-format).
 | hour24 | boolean | `false` | v0.2.1 | Set to `true` to display times in 24-hour format.
 | font_size | number | `100` | v0.0.3 | Adjust the font size of the state, as percentage of the original size.
 | font_size_header | number | `14` | v0.3.1 | Adjust the font size of the header, size in pixels.
@@ -275,9 +275,9 @@ Options `decimals` defined "card-wide" and/or for some entity are used to set an
 - if "card-wide" `decimals` option is not defined - a default presentation is used;
 - otherwise - this value is used.
 4. For secondary Y-axis labels:
-- if "card-wide" `decimals` & `decimals_secondary` options are not defined - a default presentation is used;
+- if "card-wide" `decimals` & `decimals_secondary_labels` options are not defined - a default presentation is used;
 - if "card-wide" `decimals` option is defined - this value is used;
-- if "card-wide" `decimals_secondary` option is defined - this value is used.
+- if "card-wide" `decimals_secondary_labels` option is defined - this value is used.
   
 A "default presentation" refers to a default look in HA:
 1. For a state value (also for extrema & average): if accuracy settings are defined for an entity - these settings are used, otherwise some default HA settings (depend on many factors incl. a `device_class`; for template sensors - a user-defined accuracy set in jinja templates is used).
