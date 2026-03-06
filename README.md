@@ -261,7 +261,7 @@ These buckets are converted later to single point/bar on the graph. Aggregate fu
 
 Options `decimals` defined "card-wide" and/or for some entity are used to set an exact number of decimals according to the following rules:
 1. For states:
-- if none `decimals` option is defined - a default presentation is used;
+- if none `decimals` option is defined - a default presentation (see a note below) is used;
 - if "card-wide" `decimals` is defined - this value is used;
 - if `decimals` for some entity is defined - this value is used for this entity.
 2. For extrema & average values:
@@ -272,10 +272,15 @@ Options `decimals` defined "card-wide" and/or for some entity are used to set an
 - if "card-wide" `decimals` option is not defined - a default presentation is used;
 - otherwise - this value is used.
 4. For secondary Y-axis labels:
-- if "card-wide" `decimals` & `decimals_secondary` option are not defined - a default presentation is used;
+- if "card-wide" `decimals` & `decimals_secondary` options are not defined - a default presentation is used;
 - if "card-wide" `decimals` option is defined - this value is used;
 - if "card-wide" `decimals_secondary` option is defined - this value is used.
   
+A "default presentation" refers to a default look in HA:
+1. For a state value (also for extrema & average): if accuracy settings are defined for an entity - these settings are used, otherwise some default HA settings (depend on many factors incl. a `device_class`; for template sensors - a user-defined accuracy set in jinja templates is used).
+2. For an attribute value (also for extrema & average): default HA settings are used (for template sensors - a user-defined accuracy set in jinja templates is used).
+3. For Y-axis labels: TO BE DETAILED
+
 
 ### Theme variables
 The following theme variables can be set in your HA theme to customize the appearance of the card.
