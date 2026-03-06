@@ -263,7 +263,7 @@ These buckets are converted later to single point/bar on the graph. Aggregate fu
 ### Number format
 
 Options `decimals` defined "card-wide" and/or for some entity are used to set an exact number of decimals according to the following rules:
-1. For states:
+1. For state & attribute values:
 - if none `decimals` option is defined - a default presentation (see a note below) is used;
 - if "card-wide" `decimals` is defined - this value is used;
 - if `decimals` for some entity is defined - this value is used for this entity.
