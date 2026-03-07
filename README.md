@@ -284,7 +284,7 @@ Options `decimals` defined "card-wide" and/or for some entity are used to set an
 A "default presentation" refers to a default look in HA:
 1. For a state value (also for extrema & average): if accuracy settings are defined for an entity - these settings are used, otherwise some default HA settings (depend on many factors incl. a `device_class`; for template sensors - a user-defined accuracy set in jinja templates is used).
 2. For an attribute value (also for extrema & average): default HA settings are used (for template sensors - a user-defined accuracy set in jinja templates is used).
-3. For Y-axis labels: TO BE DETAILED
+3. For Y-axis labels: "maximum 2 decimals" accuracy is used.
 And for all values, HA number format settings (like `xxxx.xx` or `x xxx.x` or `x,xxx.x`) are used.
 
 ### Theme variables
