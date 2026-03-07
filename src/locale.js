@@ -23,4 +23,3 @@ export {
   getHour24,
   getHourFormat,
 };
-
