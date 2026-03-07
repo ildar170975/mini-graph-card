@@ -7,9 +7,11 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
+import {
+  formatNumber,
+} from './locale';
 import './initialize';
 import { version } from '../package.json';
-
 import {
   ICONS,
   UPDATE_PROPS,
@@ -292,7 +294,7 @@ class MiniGraphCard extends LitElement {
       const { entity: tooltipEntity, value: tooltipValue } = this.tooltip;
       const isTooltip = isPrimary && tooltipEntity !== undefined;
       const value = isTooltip ? tooltipValue : state;
-      const entity = isTooltip ? tooltipEntity : id;
+      const entity = isTooltip ? tooltipEntity : id; // index of entity
       const entityConfig = this.config.entities[entity];
       return html`
         <div
@@ -600,6 +602,7 @@ class MiniGraphCard extends LitElement {
 
   renderLabels() {
     if (!this.config.show.labels || this.primaryYaxisSeries.length === 0) return;
+    // index is not passed into computeState() for a primary axis
     return html`
       <div class="graph__labels --primary flex">
         <span class="label--max">${this.computeState(this.bound[1])}</span>
@@ -610,6 +613,7 @@ class MiniGraphCard extends LitElement {
 
   renderLabelsSecondary() {
     if (!this.config.show.labels_secondary || this.secondaryYaxisSeries.length === 0) return;
+    // index "-1" is passed into computeState() for a secondary axis
     return html`
       <div class="graph__labels --secondary flex">
         <span class="label--max">${this.computeState(this.boundSecondary[1], -1)}</span>
@@ -619,6 +623,7 @@ class MiniGraphCard extends LitElement {
   }
 
   renderInfo() {
+    // index "0" is passed into computeState() since "info" is shown for the 1st entity
     return this.abs.length > 0 ? html`
       <div class="info flex">
         ${this.abs.map(entry => html`
@@ -744,27 +749,68 @@ class MiniGraphCard extends LitElement {
 
     let dec;
     if (index === undefined) {
-      dec = this.config.decimals;
+      // for a primary Y-axis
+      dec = this.config.decimals_primary_labels !== undefined
+        ? this.config.decimals_primary_labels
+        : this.config.decimals;
     } else if (index === -1) {
-      dec = this.config.decimals_secondary !== undefined
-        ? this.config.decimals_secondary
+      // for a secondary Y-axis
+      dec = this.config.decimals_secondary_labels !== undefined
+        ? this.config.decimals_secondary_labels
         : this.config.decimals;
     } else {
+      // for a state or attribute value
       dec = this.config.entities[index].decimals !== undefined
         ? this.config.entities[index].decimals
         : this.config.decimals;
     }
 
     const value_factor = 10 ** this.config.value_factor;
+    let value;
 
     if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-      return this.numberFormat(Math.round(state * value_factor * 100) / 100, this._hass.language);
+      // default accuracy
+      if (index >= 0) {
+        // formatting a state or attribute
+        const entityId = this.config.entities[index].entity;
+        const attribute = this.config.entities[index].attribute;
+        const stateObj = this._hass.states[entityId];
+        if (attribute) {
+          // formatting attribute
+          const attrParts = this._hass.formatEntityAttributeValueToParts(
+            stateObj,
+            attribute,
+            state * value_factor
+          );
+          value = attrParts.find((part) => part.type === "value")?.value;
+          return value;
+        } else {
+          // formatting state
+          const stateParts = this._hass.formatEntityStateToParts(
+            stateObj,
+            state * value_factor
+          );
+          value = stateParts.find((part) => part.type === "value")?.value;
+          return value;
+        }
+      } else {
+        // formatting Y-axis (primary, secondary) labels
+        value = Number.isNaN(state) ? state : state * value_factor;
+        const sss = formatNumber(
+          value,
+          this._hass.locale
+        );
+        return sss;
+      }
     }
 
-    const x = 10 ** dec;
-    return this.numberFormat(
-      (Math.round(state * value_factor * x) / x).toFixed(dec),
-      this._hass.language, dec,
+    // acuracy defined by dec
+    // const x = 10 ** dec;
+    value = state * value_factor;
+    return formatNumber(
+      value,
+      this._hass.locale,
+      { minimumFractionDigits: dec, maximumFractionDigits: dec }
     );
   }
 
