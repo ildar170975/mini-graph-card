@@ -796,11 +796,10 @@ class MiniGraphCard extends LitElement {
       } else {
         // formatting Y-axis (primary, secondary) labels
         value = Number.isNaN(state) ? state : state * value_factor;
-        const sss = formatNumber(
+        return formatNumber(
           value,
           this._hass.locale
         );
-        return sss;
       }
     }
 
