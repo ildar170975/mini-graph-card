@@ -10,7 +10,10 @@ The card works with entities from within the **sensor** & **binary_sensor** doma
 ### HACS (recommended) 
 
 This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community Store).
+
 <small>*HACS is a third party community store and is not included in Home Assistant out of the box.*</small>
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=kalkih&repository=mini-graph-card)
 
 ### Manual install
 
@@ -26,7 +29,7 @@ This card is available in [HACS](https://hacs.xyz/) (Home Assistant Community St
 2. Grab `mini-graph-card-bundle.js`:
 
   ```console
-  $ wget https://github.com/kalkih/mini-graph-card/releases/download/v0.12.1/mini-graph-card-bundle.js
+  $ wget https://github.com/kalkih/mini-graph-card/releases/download/v0.13.0/mini-graph-card-bundle.js
   ```
 
 3. Add the resource reference as decribed below.
@@ -37,7 +40,7 @@ If you configure Lovelace via YAML, add a reference to `mini-graph-card-bundle.j
 
   ```yaml
   resources:
-    - url: /local/mini-graph-card-bundle.js?v=0.12.1
+    - url: /local/mini-graph-card-bundle.js?v=0.13.0
       type: module
   ```
 
@@ -60,7 +63,7 @@ Else, if you prefer the graphical editor, use the menu to add the resource:
 
   ```yaml
   resources:
-    - url: /local/mini-graph-card-bundle.js?v=0.12.1
+    - url: /local/mini-graph-card-bundle.js?v=0.13.0
       type: module
   ```
 
@@ -84,7 +87,7 @@ We recommend looking at the [Example usage section](#example-usage) to understan
 | unit | string |  | v0.0.1 | Set a custom unit of measurement (`''` value for an empty unit).
 | tap_action | [action object](#action-object-options) |  | v0.7.0 | Action on click/tap.
 | group | boolean | `false` | v0.2.0 | Disable paddings and box-shadow, useful when nesting the card.
-| hours_to_show | integer | `24` | v0.0.2 | Specify how many hours of history the graph should present.
+| hours_to_show | number | `24` | v0.0.2 | Specify how many hours of history the graph should present.
 | points_per_hour | number | `0.5` | v0.2.0 | Specify amount of data points the graph should display for each hour, *(basically the detail/accuracy/smoothing of the graph)*.
 | aggregate_func | string | `avg` | v0.8.0 | Specify [aggregate function](#aggregate-functions) used to calculate point/bar in the graph.
 | group_by | string | `interval` | v0.8.0 | Specify type of grouping of data, dynamic `interval`, `date` or `hour`.
