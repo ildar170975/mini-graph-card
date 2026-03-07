@@ -9,7 +9,6 @@ import {
   DEFAULT_SHOW,
 } from './const';
 
-
 /**
  * Starting from the given index, increment the index until an array element with a
  * "value" property is found
