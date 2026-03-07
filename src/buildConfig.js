@@ -1,4 +1,5 @@
-import { log, getHourFormat } from './utils';
+import { getHourFormat } from './locale';
+import { log } from './utils';
 import {
   URL_DOCS,
   FONT_SIZE,
