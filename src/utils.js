@@ -18,6 +18,7 @@ const decompress = data => (typeof data === 'string' ? JSON.parse(lzStringDecomp
 
 const getFirstDefinedItem = (...collection) => collection.find(item => typeof item !== 'undefined');
 
+// eslint-disable-next-line max-len
 const compareArray = (a, b) => a.length === b.length && a.every((value, index) => value === b[index]);
 
 const log = (message) => {
