@@ -8,8 +8,11 @@ import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
 import './initialize';
+import {
+  getHourFormat,
+  getHour24,
+} from './locale';
 import { version } from '../package.json';
-
 import {
   ICONS,
   UPDATE_PROPS,
@@ -23,7 +26,6 @@ import {
   getFirstDefinedItem,
   compareArray,
   log,
-  getHourFormat, getHour24,
 } from './utils';
 
 class MiniGraphCard extends LitElement {
