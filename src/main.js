@@ -369,6 +369,7 @@ class MiniGraphCard extends LitElement {
 
   renderLegend() {
     if (this.visibleLegends.length <= 1 || !this.config.show.legend) return;
+    /* eslint-disable indent */
     return html`
       <div class="graph__legend">
         ${this.visibleLegends.map((entity) => {
@@ -385,6 +386,7 @@ class MiniGraphCard extends LitElement {
         })}
       </div>
     `;
+    /* eslint-enable indent */
   }
 
   renderIndicator(state, index) {
