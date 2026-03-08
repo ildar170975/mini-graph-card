@@ -775,23 +775,24 @@ class MiniGraphCard extends LitElement {
         const entityId = this.config.entities[index].entity;
         const attribute = this.config.entities[index].attribute;
         const stateObj = this._hass.states[entityId];
+        let part;
         if (attribute) {
           // formatting attribute
           const attrParts = this._hass.formatEntityAttributeValueToParts(
             stateObj,
             attribute,
-            state * value_factor
+            state * value_factor,
           );
-          const part = attrParts.find((part) => part.type === "value");
+          part = attrParts.find(part => part.type === 'value');
           value = part && part.value;
           return value;
         } else {
           // formatting state
           const stateParts = this._hass.formatEntityStateToParts(
             stateObj,
-            state * value_factor
+            state * value_factor,
           );
-          const part = stateParts.find((part) => part.type === "value");
+          part = stateParts.find(part => part.type === 'value');
           value = part && part.value;
           return value;
         }
@@ -800,7 +801,7 @@ class MiniGraphCard extends LitElement {
         value = Number.isNaN(state) ? state : state * value_factor;
         return formatNumber(
           value,
-          this._hass.locale
+          this._hass.locale,
         );
       }
     }
@@ -811,7 +812,7 @@ class MiniGraphCard extends LitElement {
     return formatNumber(
       value,
       this._hass.locale,
-      { minimumFractionDigits: dec, maximumFractionDigits: dec }
+      { minimumFractionDigits: dec, maximumFractionDigits: dec },
     );
   }
 
