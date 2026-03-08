@@ -21,27 +21,27 @@ const NumberFormat = Object.freeze({
 
 /* these types are used in FrontendLocaleData
 export enum TimeZone {
-  local = "local",
-  server = "server",
+  local = 'local',
+  server = 'server',
 }
 
 export enum DateFormat {
-  language = "language",
-  system = "system",
-  DMY = "DMY",
-  MDY = "MDY",
-  YMD = "YMD",
+  language = 'language',
+  system = 'system',
+  DMY = 'DMY',
+  MDY = 'MDY',
+  YMD = 'YMD',
 }
 
 export enum FirstWeekday {
-  language = "language",
-  monday = "monday",
-  tuesday = "tuesday",
-  wednesday = "wednesday",
-  thursday = "thursday",
-  friday = "friday",
-  saturday = "saturday",
-  sunday = "sunday",
+  language = 'language',
+  monday = 'monday',
+  tuesday = 'tuesday',
+  wednesday = 'wednesday',
+  thursday = 'thursday',
+  friday = 'friday',
+  saturday = 'saturday',
+  sunday = 'sunday',
 }
 */
 
@@ -61,13 +61,13 @@ const numberFormatToLocale = (
 ) /* : string | string[] | undefined */ => {
   switch (localeOptions.number_format) {
     case NumberFormat.comma_decimal:
-      return ["en-US", "en"]; // Use United States with fallback to English formatting 1,234,567.89
+      return ['en-US', 'en']; // Use United States with fallback to English formatting 1,234,567.89
     case NumberFormat.decimal_comma:
-      return ["de", "es", "it"]; // Use German with fallback to Spanish then Italian formatting 1.234.567,89
+      return ['de', 'es', 'it']; // Use German with fallback to Spanish then Italian formatting 1.234.567,89
     case NumberFormat.space_comma:
-      return ["fr", "sv", "cs"]; // Use French with fallback to Swedish and Czech formatting 1 234 567,89
+      return ['fr', 'sv', 'cs']; // Use French with fallback to Swedish and Czech formatting 1 234 567,89
     case NumberFormat.quote_decimal:
-      return ["de-CH"]; // Use German (Switzerland) formatting 1'234'567.89
+      return ['de-CH']; // Use German (Switzerland) formatting 1'234'567.89
     case NumberFormat.system:
       return undefined;
     default:
@@ -89,7 +89,7 @@ const formatNumber = (
 ) =>
   formatNumberToParts(num, localeOptions, options)
     .map((part) => part.value)
-    .join("");
+    .join('');
 
 /**
  * Returns an array of objects containing the formatted number in parts
@@ -110,7 +110,7 @@ const formatNumberToParts = (
   Number.isNaN =
     Number.isNaN ||
     function isNaN(input) {
-      return typeof input === "number" && isNaN(input);
+      return typeof input === 'number' && isNaN(input);
     };
 
   if (
@@ -126,13 +126,13 @@ const formatNumberToParts = (
 
   if (
     !Number.isNaN(Number(num)) &&
-    num !== "" &&
+    num !== '' &&
     localeOptions &&
     localeOptions.number_format === NumberFormat.none
   ) {
     // If NumberFormat is none, use en-US format without grouping.
     return new Intl.NumberFormat(
-      "en-US",
+      'en-US',
       getDefaultFormatOptions(num, {
         ...options,
         useGrouping: false,
@@ -140,7 +140,7 @@ const formatNumberToParts = (
     ).formatToParts(Number(num));
   }
 
-  return [{ type: "literal", value: num }];
+  return [{ type: 'literal', value: num }];
 };
 
 /**
@@ -157,7 +157,7 @@ const getDefaultFormatOptions = (
     ...options,
   };
 
-  if (typeof num !== "string") {
+  if (typeof num !== 'string') {
     return defaultOptions;
   }
 
@@ -167,7 +167,7 @@ const getDefaultFormatOptions = (
     (options.minimumFractionDigits === undefined &&
       options.maximumFractionDigits === undefined)
   ) {
-    const digits = num.indexOf(".") > -1 ? num.split(".")[1].length : 0;
+    const digits = num.indexOf('.') > -1 ? num.split('.')[1].length : 0;
     defaultOptions.minimumFractionDigits = digits;
     defaultOptions.maximumFractionDigits = digits;
   }
