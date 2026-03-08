@@ -114,7 +114,8 @@ const formatNumberToParts = (
     };
 
   if (
-    localeOptions?.number_format !== NumberFormat.none &&
+    localeOptions &&
+    localeOptions.number_format !== NumberFormat.none &&
     !Number.isNaN(Number(num))
   ) {
     return new Intl.NumberFormat(
