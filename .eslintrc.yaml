@@ -1,6 +1,6 @@
 extends: airbnb-base
 parserOptions:
-  ecmaVersion: latest
+  ecmaVersion: 2019
 rules:
   no-else-return: 0
   no-underscore-dangle: 0
