@@ -161,7 +161,8 @@ const formatNumberToParts = (
 };
 
 /**
- * Formats a number based on the user's preference with thousands separator(s) and decimal character for better legibility.
+ * Formats a number based on the user's preference with thousands separator(s)
+ * and decimal character for better legibility.
  *
  * @param num The number to format
  * @param localeOptions The user-selected language and formatting, from `hass.locale`
@@ -172,7 +173,7 @@ const formatNumber = (
   localeOptions, // FrontendLocaleData (optional)
   options, // Intl.NumberFormatOptions (optional)
 ) => formatNumberToParts(num, localeOptions, options)
-  .map((part) => part.value)
+  .map(part => part.value)
   .join('');
 
 export {
