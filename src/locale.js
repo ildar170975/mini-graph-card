@@ -1,12 +1,14 @@
 // fragment of format_number.ts from HA frontend converted to JS
 
 // this var was converted from TS enum
+/* must be uncommented before nerging with https://github.com/kalkih/mini-graph-card/pull/1347
 const TimeFormat = Object.freeze({
   language: 'language',
   system: 'system',
   am_pm: '12',
   twenty_four: '24',
 });
+*/
 
 // this var was converted from TS enum
 const NumberFormat = Object.freeze({
