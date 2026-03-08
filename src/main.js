@@ -772,9 +772,7 @@ class MiniGraphCard extends LitElement {
       // default accuracy
       if (index >= 0) {
         // formatting a state or attribute
-        // eslint-disable-next-line prefer-destructuring
-        const entityId = this.config.entities[index].entity;
-        // eslint-disable-next-line prefer-destructuring
+        const entityId = this.entity[index].entity_id;
         const attribute = this.config.entities[index].attribute;
         const stateObj = this._hass.states[entityId];
         if (attribute) {
