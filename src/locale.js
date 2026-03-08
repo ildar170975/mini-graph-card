@@ -110,22 +110,6 @@ const getDefaultFormatOptions = (
 };
 
 /**
- * Formats a number based on the user's preference with thousands separator(s) and decimal character for better legibility.
- *
- * @param num The number to format
- * @param localeOptions The user-selected language and formatting, from `hass.locale`
- * @param options Intl.NumberFormatOptions to use
- */
-const formatNumber = (
-  num, // string | number
-  localeOptions, // FrontendLocaleData (optional)
-  options, // Intl.NumberFormatOptions (optional)
-) =>
-  formatNumberToParts(num, localeOptions, options)
-    .map((part) => part.value)
-    .join('');
-
-/**
  * Returns an array of objects containing the formatted number in parts
  * Similar to Intl.NumberFormat.prototype.formatToParts()
  *
@@ -141,9 +125,8 @@ const formatNumberToParts = (
     : undefined;
 
   // Polyfill for Number.isNaN, which is more reliable than the global isNaN()
-  Number.isNaN =
-    Number.isNaN ||
-    function isNaN(input) {
+  Number.isNaN = Number.isNaN
+    || function isNaN(input) {
       return typeof input === 'number' && isNaN(input);
     };
 
@@ -176,6 +159,21 @@ const formatNumberToParts = (
 
   return [{ type: 'literal', value: num }];
 };
+
+/**
+ * Formats a number based on the user's preference with thousands separator(s) and decimal character for better legibility.
+ *
+ * @param num The number to format
+ * @param localeOptions The user-selected language and formatting, from `hass.locale`
+ * @param options Intl.NumberFormatOptions to use
+ */
+const formatNumber = (
+  num, // string | number
+  localeOptions, // FrontendLocaleData (optional)
+  options, // Intl.NumberFormatOptions (optional)
+) => formatNumberToParts(num, localeOptions, options)
+  .map((part) => part.value)
+  .join('');
 
 export {
   formatNumber,
