@@ -775,26 +775,22 @@ class MiniGraphCard extends LitElement {
         const entityId = this.entity[index].entity_id;
         const { attribute } = this.config.entities[index];
         const stateObj = this._hass.states[entityId];
+        let parts;
         if (attribute) {
-          // formatting attribute
-          const attrParts = this._hass.formatEntityAttributeValueToParts(
+          parts = this._hass.formatEntityAttributeValueToParts(
             stateObj,
             attribute,
             state * value_factor,
           );
-          const aPart = attrParts.find(part => part.type === 'value');
-          value = aPart && aPart.value;
-          return value;
         } else {
-          // formatting state
-          const stateParts = this._hass.formatEntityStateToParts(
+          parts = this._hass.formatEntityStateToParts(
             stateObj,
             state * value_factor,
           );
-          const sPart = stateParts.find(part => part.type === 'value');
-          value = sPart && sPart.value;
-          return value;
         }
+        const part = parts.find(part => part.type === 'value');
+        value = part && part.value;
+        return value;        
       } else {
         // formatting Y-axis (primary, secondary) labels
         value = Number.isNaN(state) ? state : state * value_factor;
