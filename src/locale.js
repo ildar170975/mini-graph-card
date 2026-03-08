@@ -78,6 +78,38 @@ const numberFormatToLocale = (
 };
 
 /**
+ * Generates default options for Intl.NumberFormat
+ * @param num The number to be formatted
+ * @param options The Intl.NumberFormatOptions that should be included in the returned options
+ */
+const getDefaultFormatOptions = (
+  num, // string | number
+  options, // Intl.NumberFormatOptions
+) => {
+  const defaultOptions = { // Intl.NumberFormatOptions
+    maximumFractionDigits: 2,
+    ...options,
+  };
+
+  if (typeof num !== 'string') {
+    return defaultOptions;
+  }
+
+  // Keep decimal trailing zeros if they are present in a string numeric value
+  if (
+    !options
+    || (options.minimumFractionDigits === undefined
+        && options.maximumFractionDigits === undefined)
+  ) {
+    const digits = num.indexOf('.') > -1 ? num.split('.')[1].length : 0;
+    defaultOptions.minimumFractionDigits = digits;
+    defaultOptions.maximumFractionDigits = digits;
+  }
+
+  return defaultOptions;
+};
+
+/**
  * Formats a number based on the user's preference with thousands separator(s) and decimal character for better legibility.
  *
  * @param num The number to format
@@ -116,21 +148,21 @@ const formatNumberToParts = (
     };
 
   if (
-    localeOptions &&
-    localeOptions.number_format !== NumberFormat.none &&
-    !Number.isNaN(Number(num))
+    localeOptions
+    && localeOptions.number_format !== NumberFormat.none
+    && !Number.isNaN(Number(num))
   ) {
     return new Intl.NumberFormat(
       locale,
-      getDefaultFormatOptions(num, options)
+      getDefaultFormatOptions(num, options),
     ).formatToParts(Number(num));
   }
 
   if (
-    !Number.isNaN(Number(num)) &&
-    num !== '' &&
-    localeOptions &&
-    localeOptions.number_format === NumberFormat.none
+    !Number.isNaN(Number(num))
+    && num !== ''
+    && localeOptions
+    && localeOptions.number_format === NumberFormat.none
   ) {
     // If NumberFormat is none, use en-US format without grouping.
     return new Intl.NumberFormat(
@@ -138,43 +170,11 @@ const formatNumberToParts = (
       getDefaultFormatOptions(num, {
         ...options,
         useGrouping: false,
-      })
+      }),
     ).formatToParts(Number(num));
   }
 
   return [{ type: 'literal', value: num }];
-};
-
-/**
- * Generates default options for Intl.NumberFormat
- * @param num The number to be formatted
- * @param options The Intl.NumberFormatOptions that should be included in the returned options
- */
-const getDefaultFormatOptions = (
-  num, // string | number
-  options, // Intl.NumberFormatOptions
-) => {
-  const defaultOptions = { // Intl.NumberFormatOptions
-    maximumFractionDigits: 2,
-    ...options,
-  };
-
-  if (typeof num !== 'string') {
-    return defaultOptions;
-  }
-
-  // Keep decimal trailing zeros if they are present in a string numeric value
-  if (
-    !options ||
-    (options.minimumFractionDigits === undefined &&
-      options.maximumFractionDigits === undefined)
-  ) {
-    const digits = num.indexOf('.') > -1 ? num.split('.')[1].length : 0;
-    defaultOptions.minimumFractionDigits = digits;
-    defaultOptions.maximumFractionDigits = digits;
-  }
-
-  return defaultOptions;
 };
 
 export {
