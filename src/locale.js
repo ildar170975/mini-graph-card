@@ -57,7 +57,7 @@ export interface FrontendLocaleData {
 */
 
 const numberFormatToLocale = (
-  localeOptions // FrontendLocaleData
+  localeOptions, // FrontendLocaleData
 ) /* : string | string[] | undefined */ => {
   switch (localeOptions.number_format) {
     case NumberFormat.comma_decimal:
@@ -85,7 +85,7 @@ const numberFormatToLocale = (
 const formatNumber = (
   num, // string | number
   localeOptions, // FrontendLocaleData (optional)
-  options // Intl.NumberFormatOptions (optional)
+  options, // Intl.NumberFormatOptions (optional)
 ) =>
   formatNumberToParts(num, localeOptions, options)
     .map((part) => part.value)
@@ -100,7 +100,7 @@ const formatNumber = (
 const formatNumberToParts = (
   num, // string | number
   localeOptions, // FrontendLocaleData (optional)
-  options // Intl.NumberFormatOptions (optional)
+  options, // Intl.NumberFormatOptions (optional)
 ) => {
   const locale = localeOptions
     ? numberFormatToLocale(localeOptions)
@@ -150,7 +150,7 @@ const formatNumberToParts = (
  */
 const getDefaultFormatOptions = (
   num, // string | number
-  options // Intl.NumberFormatOptions
+  options, // Intl.NumberFormatOptions
 ) => {
   const defaultOptions = { // Intl.NumberFormatOptions
     maximumFractionDigits: 2,
