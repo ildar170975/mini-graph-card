@@ -127,7 +127,8 @@ const formatNumberToParts = (
   if (
     !Number.isNaN(Number(num)) &&
     num !== "" &&
-    localeOptions?.number_format === NumberFormat.none
+    localeOptions &&
+    localeOptions.number_format === NumberFormat.none
   ) {
     // If NumberFormat is none, use en-US format without grouping.
     return new Intl.NumberFormat(
