@@ -773,7 +773,7 @@ class MiniGraphCard extends LitElement {
       if (index >= 0) {
         // formatting a state or attribute
         const entityId = this.entity[index].entity_id;
-        const attribute = this.config.entities[index].attribute;
+        const { attribute } = this.config.entities[index];
         const stateObj = this._hass.states[entityId];
         if (attribute) {
           // formatting attribute
