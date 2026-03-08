@@ -782,7 +782,8 @@ class MiniGraphCard extends LitElement {
             attribute,
             state * value_factor
           );
-          value = attrParts.find((part) => part.type === "value")?.value;
+          const part = attrParts.find((part) => part.type === "value");
+          value = part && part.value;
           return value;
         } else {
           // formatting state
@@ -790,7 +791,8 @@ class MiniGraphCard extends LitElement {
             stateObj,
             state * value_factor
           );
-          value = stateParts.find((part) => part.type === "value")?.value;
+          const part = stateParts.find((part) => part.type === "value");
+          value = part && part.value;
           return value;
         }
       } else {
