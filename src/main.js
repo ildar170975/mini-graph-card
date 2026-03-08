@@ -775,7 +775,6 @@ class MiniGraphCard extends LitElement {
         const entityId = this.config.entities[index].entity;
         const attribute = this.config.entities[index].attribute;
         const stateObj = this._hass.states[entityId];
-        let part;
         if (attribute) {
           // formatting attribute
           const attrParts = this._hass.formatEntityAttributeValueToParts(
@@ -783,8 +782,8 @@ class MiniGraphCard extends LitElement {
             attribute,
             state * value_factor,
           );
-          part = attrParts.find(part => part.type === 'value');
-          value = part && part.value;
+          const aPart = attrParts.find(part => part.type === 'value');
+          value = aPart && aPart.value;
           return value;
         } else {
           // formatting state
@@ -792,8 +791,8 @@ class MiniGraphCard extends LitElement {
             stateObj,
             state * value_factor,
           );
-          part = stateParts.find(part => part.type === 'value');
-          value = part && part.value;
+          const sPart = stateParts.find(part => part.type === 'value');
+          value = sPart && sPart.value;
           return value;
         }
       } else {
