@@ -788,9 +788,9 @@ class MiniGraphCard extends LitElement {
             state * value_factor,
           );
         }
-        const part = parts.find(part => part.type === 'value');
-        value = part && part.value;
-        return value;        
+        const partValue = parts.find(part => part.type === 'value');
+        value = partValue && partValue.value;
+        return value;
       } else {
         // formatting Y-axis (primary, secondary) labels
         value = Number.isNaN(state) ? state : state * value_factor;
