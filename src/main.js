@@ -9,7 +9,7 @@ import handleClick from './handleClick';
 import buildConfig from './buildConfig';
 import './initialize';
 import {
-  getHourFormat,
+  getHourFormat, getDateFormat,
   getHour24,
 } from './locale';
 import { version } from '../package.json';
@@ -143,7 +143,9 @@ class MiniGraphCard extends LitElement {
       else
         hour24 = false;
       this.config.hour24 = hour24;
-      this.config.format = getHourFormat(hour24);
+      const hourFormat = getHourFormat(hour24);
+      const dateFormat = getDateFormat(this.config);
+      this.config.format = { ...hourFormat, ...dateFormat };
     }
   }
 
