@@ -300,27 +300,36 @@ class MiniGraphCard extends LitElement {
     }
   }
 
-  renderState(id) {
-    const isPrimary = id === 0; // rendering main state element?
-    if (isPrimary || this.config.entities[id].show_state) {
-      const state = this.getEntityState(id);
-      // use tooltip data for main state element, if tooltip is active
-      const { entity: tooltipEntity, value: tooltipValue } = this.tooltip;
-      const isTooltip = isPrimary && tooltipEntity !== undefined;
+  /**
+  * Renders a state/attrubute value (if "show_state: true")
+  * @returns HTML element
+  * @param {number} index Index of an entity in config.entities
+  */
+  renderState(index) {
+    const isPrimary = index === 0; // rendering main entity state element?
+    if (isPrimary || this.config.entities[index].show_state) {
+      // get a state/attribute value
+      const state = this.getEntityState(index);
+      // use tooltip data for main entity state element, if tooltip is active
+      // "tooltip" - a selected point/bar
+      const { entity: tooltipEntityIndex, value: tooltipValue } = this.tooltip;
+      const isTooltip = isPrimary && tooltipEntityIndex !== undefined;
+      // either a state/attr for a selected point/bar - or a "native" state/attr
       const value = isTooltip ? tooltipValue : state;
-      const entity = isTooltip ? tooltipEntity : id;
-      const entityConfig = this.config.entities[entity];
+      const entityIndex = isTooltip ? tooltipEntityIndex : index;
+      const entityConfig = this.config.entities[entityIndex];
       return html`
         <div
           class="state ${!isPrimary && 'state--small'}"
-          @click=${e => this.handlePopup(e, this.entity[id])}
-          style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entity)}` : ''}>
-          ${entityConfig.show_indicator ? this.renderIndicator(value, entity) : ''}
+          @click=${e => this.handlePopup(e, this.entity[index])}
+          style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entityIndex)}` : ''}
+        >
+          ${entityConfig.show_indicator ? this.renderIndicator(value, entityIndex) : ''}
           <span class="state__value ellipsis">
-            ${this.computeState(value)}
+            ${this.computeState(value, entityIndex)}
           </span>
           <span class="state__uom ellipsis">
-            ${this.computeUom(entity)}
+            ${this.computeUom(entityIndex)}
           </span>
           ${isPrimary && this.renderStateTime() || ''}
         </div>
