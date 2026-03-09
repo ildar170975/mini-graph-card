@@ -337,7 +337,12 @@ class MiniGraphCard extends LitElement {
     }
   }
 
+  /**
+  * Renders a "time interval" element for a selected point/bar
+  * @returns HTML element
+  */
   renderStateTime() {
+    // "tooltip" - a selected point/bar
     if (this.tooltip.value === undefined) return;
     return html`
       <div class="state__time">
