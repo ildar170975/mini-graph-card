@@ -1,4 +1,4 @@
-import { getHourFormat } from './locale';
+import { getHourFormat, getDateFormat } from './locale';
 import { log } from './utils';
 import {
   URL_DOCS,
@@ -156,9 +156,9 @@ export default (config) => {
     conf.color_thresholds,
     conf.color_thresholds_transition,
   );
-  const additional = conf.hours_to_show > 24 ? { day: 'numeric', weekday: 'short' } : {};
   const hourFormat = getHourFormat(conf.hour24);
-  conf.format = { ...hourFormat, ...additional };
+  const dateFormat = getDateFormat(conf);
+  conf.format = { ...hourFormat, ...dateFormat };
 
   // override points per hour to mach group_by function
   switch (conf.group_by) {
