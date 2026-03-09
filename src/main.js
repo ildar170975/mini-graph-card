@@ -294,7 +294,7 @@ class MiniGraphCard extends LitElement {
       const { entity: tooltipEntity, value: tooltipValue } = this.tooltip;
       const isTooltip = isPrimary && tooltipEntity !== undefined;
       const value = isTooltip ? tooltipValue : state;
-      const entity = isTooltip ? tooltipEntity : id; // index of entity
+      const entity = isTooltip ? tooltipEntity : id;
       const entityConfig = this.config.entities[entity];
       return html`
         <div
