@@ -271,9 +271,9 @@ class MiniGraphCard extends LitElement {
 
   /**
   * Returns an object attrubute value
-  * @returns {any} value of an attribute/subattribute
+  * @returns {any} Value of an attribute/subattribute
   * @param obj stateObj.attributes
-  * @param path attribute defined as either a singular attribute or a tree-like path
+  * @param path Attribute defined as either a singular attribute or a tree-like path
   */
   getObjectAttr(obj, path) {
     return path.split('.').reduce((res, key) => res && res[key], obj);
