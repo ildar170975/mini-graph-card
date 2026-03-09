@@ -388,7 +388,7 @@ class MiniGraphCard extends LitElement {
   }
 
   /**
-  * Renders a whole legend for all entitis
+  * Renders a whole legend for all entities
   * @returns HTML element
   */
   renderLegend() {
