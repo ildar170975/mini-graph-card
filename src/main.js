@@ -719,7 +719,14 @@ class MiniGraphCard extends LitElement {
     return this.secondaryYaxisEntities.map(entity => this.Graph[entity.index]);
   }
 
-  computeColor(inState, i) {
+  /**
+  * Returns a color for an entity
+  * accounting `color_thresholds`, global `line_color` & individual `color` settings
+  * @returns Color
+  * @param {string | number} inState Value of a state/attribute
+  * @param {number} index Index of an entity in config.entities
+  */
+  computeColor(inState, index) {
     const { color_thresholds, line_color } = this.config;
     const state = Number(inState) || 0;
 
@@ -728,20 +735,22 @@ class MiniGraphCard extends LitElement {
       const { color } = color_thresholds.find(ele => ele.value < state)
         || color_thresholds.slice(-1)[0];
       intColor = color;
-      const index = color_thresholds.findIndex(ele => ele.value < state);
-      const c1 = color_thresholds[index];
-      const c2 = color_thresholds[index - 1];
+      const indexThreshold = color_thresholds.findIndex(ele => ele.value < state);
+      const c1 = color_thresholds[indexThreshold];
+      const c2 = color_thresholds[indexThreshold - 1];
       if (c2) {
         const factor = (c2.value - state) / (c2.value - c1.value);
         intColor = interpolateRgb(c2.color, c1.color)(factor);
       } else {
-        intColor = index
+        intColor = indexThreshold
           ? color_thresholds[color_thresholds.length - 1].color
           : color_thresholds[0].color;
       }
     }
 
-    return this.config.entities[i].color || intColor || line_color[i] || line_color[0];
+    return this.config.entities[index].color
+      || intColor
+      || line_color[index] || line_color[0];
   }
 
   computeName(index) {
