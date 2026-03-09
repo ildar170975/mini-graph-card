@@ -101,7 +101,8 @@ class MiniGraphCard extends LitElement {
   }
 
   /**
-  * Returns min & max "line_width" values defined globally for a card & for all entities individually
+  * Returns min & max "line_width" values defined globally for a card &
+  * for all entities individually
   * @returns {object} min & max "line_width" values
   */
   getMinMaxLineWidth() {
