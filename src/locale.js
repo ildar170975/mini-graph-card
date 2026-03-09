@@ -11,7 +11,7 @@ const TimeFormat = Object.freeze({
  * @param {object} locale HA Frontend local regional settings
  * @returns {boolean} true: "24h" format, false: "12h" format
  */
-const getHour24 = (locale) => {
+const getHour24 = locale => {
   if ([TimeFormat.language, TimeFormat.system].includes(locale.time_format)) {
     const testLanguage = locale.time_format === TimeFormat.language
       ? locale.language
@@ -27,14 +27,14 @@ const getHour24 = (locale) => {
  * @param {boolean} hour24 If "24h" time format should be used
  * @returns {object} Hour format
  */
-const getHourFormat = (hour24) => (hour24 ? { hourCycle: 'h23' } : { hour12: true });
+const getHourFormat = hour24 => (hour24 ? { hourCycle: 'h23' } : { hour12: true });
 
 /**
  * Get date format if needed (when "hours_to_show" > 24)
  * @param {object} config Card config
  * @returns {object} Date format
  */
-const getDateFormat = (config) => config.hours_to_show > 24 ? { day: 'numeric', weekday: 'short' } : {};
+const getDateFormat = config => config.hours_to_show > 24 ? { day: 'numeric', weekday: 'short' } : {};
 
 export {
   getHour24,
