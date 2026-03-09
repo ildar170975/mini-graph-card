@@ -132,6 +132,9 @@ class MiniGraphCard extends LitElement {
     }
   }
 
+  /**
+  * Automatically update "hour24" option (when it is not explicitly set by a user) on every render
+  */
   updateOptionsFromLocale() {
     if (this.updateHour24) {
       let hour24;
