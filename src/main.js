@@ -60,7 +60,7 @@ class MiniGraphCard extends LitElement {
     const queue = [];
     this.config.entities.forEach((entity, index) => {
       this.config.entities[index].index = index; // Required for filtered views
-      const entityState = hass && hass.states[entity.entity] || undefined;
+      const entityState = hass && hass.states[entity.entity] || undefined; // entityState stands for "stateObj"
       if (entityState && this.entity[index] !== entityState) {
         this.entity[index] = entityState;
         queue.push(`${entityState.entity_id}-${index}`);
@@ -212,7 +212,10 @@ class MiniGraphCard extends LitElement {
     `;
   }
 
-
+  /**
+  * Renders a header containing a name and an icon
+  * @returns HTML element
+  */
   renderHeader() {
     const {
       show, align_icon, align_header, font_size_header,
@@ -226,6 +229,10 @@ class MiniGraphCard extends LitElement {
       : '';
   }
 
+  /**
+  * Renders an icon
+  * @returns HTML element
+  */
   renderIcon() {
     if (this.config.icon_image !== undefined) {
       return html`
@@ -244,6 +251,10 @@ class MiniGraphCard extends LitElement {
     ` : '';
   }
 
+  /**
+  * Renders a name
+  * @returns HTML element
+  */
   renderName() {
     if (!this.config.show.name) return;
     const name = this.tooltip.entity !== undefined
@@ -258,6 +269,10 @@ class MiniGraphCard extends LitElement {
     `;
   }
 
+  /**
+  * Renders states
+  * @returns HTML element
+  */
   renderStates() {
     if (this.config.show.state)
       return html`
@@ -347,6 +362,11 @@ class MiniGraphCard extends LitElement {
       </div>` : '';
   }
 
+  /**
+  * Renders a legend entry for an entity
+  * @returns HTML element
+  * @param {number} index Index of an entity in config.entities
+  */
   computeLegend(index) {
     let legend = this.computeName(index);
     const state = this.getEntityState(index);
@@ -367,9 +387,13 @@ class MiniGraphCard extends LitElement {
     return legend;
   }
 
+  /**
+  * Renders a whole legend for all entitis
+  * @returns HTML element
+  */
   renderLegend() {
+    // do not show a legend for only 1 entity or when a legend is globally disabled
     if (this.visibleLegends.length <= 1 || !this.config.show.legend) return;
-
     /* eslint-disable indent */
     return html`
       <div class="graph__legend">
@@ -390,6 +414,12 @@ class MiniGraphCard extends LitElement {
     /* eslint-enable indent */
   }
 
+  /**
+  * Renders an indicator for an entity
+  * @returns HTML element
+  * @param {string | number} state Value of a state/attribute
+  * @param {number} index Index of an entity in config.entities
+  */
   renderIndicator(state, index) {
     return svg`
       <svg width='10' height='10'>
@@ -599,6 +629,10 @@ class MiniGraphCard extends LitElement {
     };
   }
 
+  /**
+  * Renders primary Y-axis labels
+  * @returns HTML element
+  */
   renderLabels() {
     if (!this.config.show.labels || this.primaryYaxisSeries.length === 0) return;
     return html`
@@ -609,6 +643,10 @@ class MiniGraphCard extends LitElement {
     `;
   }
 
+  /**
+  * Renders secondary Y-axis labels
+  * @returns HTML element
+  */
   renderLabelsSecondary() {
     if (!this.config.show.labels_secondary || this.secondaryYaxisSeries.length === 0) return;
     return html`
@@ -619,6 +657,10 @@ class MiniGraphCard extends LitElement {
     `;
   }
 
+  /**
+  * Renders extrema & average info
+  * @returns HTML element
+  */
   renderInfo() {
     return this.abs.length > 0 ? html`
       <div class="info flex">
@@ -707,6 +749,11 @@ class MiniGraphCard extends LitElement {
     );
   }
 
+  /**
+  * Returns a unit
+  * @returns {string} Unit
+  * @param {number} index Index of an entity in config.entities
+  */
   computeUom(index) {
     return (
       this.config.entities[index].unit !== undefined
