@@ -8,15 +8,15 @@ const blankBeforePercent = (
   localeOptions, // FrontendLocaleData
 ) => {
   switch (localeOptions.language) {
-    case "cs":
-    case "de":
-    case "fi":
-    case "fr":
-    case "sk":
-    case "sv":
-      return " ";
+    case 'cs':
+    case 'de':
+    case 'fi':
+    case 'fr':
+    case 'sk':
+    case 'sv':
+      return ' ';
     default:
-      return "";
+      return '';
   }
 };
 
