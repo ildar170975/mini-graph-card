@@ -279,7 +279,7 @@ class MiniGraphCard extends LitElement {
 
   /**
   * Check if an attribute represents an object (dictionary or list)
-  * @returns {boolean} true if an attribute is an object, false - otherwise
+  * @returns {boolean} True if an attribute is an object, false - otherwise
   * @param path Attribute defined as either a singular attribute or a tree-like path
   */
   isObjectAttr(path) {
