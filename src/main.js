@@ -28,6 +28,8 @@ import {
   log,
 } from './utils';
 
+const isUnavailableState = value => ['unavailable', 'unknown'].includes(value);
+
 class MiniGraphCard extends LitElement {
   constructor() {
     super();
@@ -813,10 +815,10 @@ class MiniGraphCard extends LitElement {
       const directOrder = indexUnit === -1 || indexUnit > indexValue;
       const delimiterPart = parts.find(part => part.type === 'literal');
       const delimiter = delimiterPart && delimiterPart.value;
-      return { directOrder, delimiter: delimiter || ''};
+      return { directOrder, delimiter: delimiter || '' };
     } else {
       // object attribute
-      return { directOrder: true, delimiter: ' '};
+      return { directOrder: true, delimiter: ' ' };
     }
   }
 
@@ -836,7 +838,7 @@ class MiniGraphCard extends LitElement {
     let revisedDelimiter;
     if (unit === '') {
       revisedDelimiter = '';
-    } else  if (directOrder
+    } else if (directOrder
       && !delimiter
       && (this.config.unit || this.config.entities[index].unit)
       && (unit !== '%'
