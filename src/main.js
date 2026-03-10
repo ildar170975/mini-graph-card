@@ -712,8 +712,10 @@ class MiniGraphCard extends LitElement {
     if (!stateObj || isUnavailableState(stateObj.state)) {
       unit = '';
     } else if (this.config.entities[index].unit !== undefined) {
+      // eslint-disable-next-line prefer-destructuring
       unit = this.config.entities[index].unit;
     } else if (this.config.unit !== undefined) {
+      // eslint-disable-next-line prefer-destructuring
       unit = this.config.unit;
     } else {
       // retrieving a native unit
