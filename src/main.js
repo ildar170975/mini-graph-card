@@ -27,6 +27,8 @@ import {
   log,
 } from './utils';
 
+const isUnavailableState = value => ['unavailable', 'unknown'].includes(value);
+
 class MiniGraphCard extends LitElement {
   constructor() {
     super();
@@ -273,6 +275,15 @@ class MiniGraphCard extends LitElement {
 
   getObjectAttr(obj, path) {
     return path.split('.').reduce((res, key) => res && res[key], obj);
+  }
+
+  /**
+  * Check if an attribute represents an object (dictionary or list)
+  * @returns {boolean} true if an attribute is an object, false - otherwise
+  * @param path Attribute defined as either a singular attribute or a tree-like path
+  */
+  isObjectAttr(path) {
+    return path.includes('.');
   }
 
   getEntityState(id) {
@@ -727,6 +738,14 @@ class MiniGraphCard extends LitElement {
     );
   }
 
+  /**
+  * Returns a string value for a state/attrubute:
+  * localized, following locale settings,
+  * accounting possible individual accuracy settings & possible "decimals" options
+  * @returns {string} value of a state/attribute
+  * @param {number|string} inState Value of a state/attribute ("unformatted")
+  * @param {number} index Index of an entity in config.entities
+  */
   computeState(inState, index) {
     if (this.config.state_map.length > 0) {
       const stateMap = Number.isInteger(inState)
@@ -741,13 +760,22 @@ class MiniGraphCard extends LitElement {
     }
 
     let state;
-    if (typeof inState === 'string') {
+    if (isUnavailableState(inState)) {
+      // as is
+      state = inState;
+    } else if (typeof inState === 'string') {
+      // attempt to fix an unexpected number format
       state = parseFloat(inState.replace(/,/g, '.'));
     } else {
+      // as is presented as a number
       state = Number(inState);
     }
+    const value_factor = 10 ** this.config.value_factor;
+    // safely process with a value_factor
+    state = Number.isNaN(Number(state)) ? state : state * value_factor;
 
     let dec;
+    // attempting to get "decimals" settings
     if (index === undefined) {
       // for a primary Y-axis
       dec = this.config.decimals_primary_labels !== undefined
@@ -765,49 +793,54 @@ class MiniGraphCard extends LitElement {
         : this.config.decimals;
     }
 
-    const value_factor = 10 ** this.config.value_factor;
     let value;
 
-    if (dec === undefined || Number.isNaN(dec) || Number.isNaN(state)) {
-      // default accuracy
+    if (dec === undefined || Number.isNaN(Number(dec)) || Number.isNaN(Number(state))) {
+      // no valid "decimals" settings defined, use a default accuracy
       if (index >= 0) {
         // formatting a state or attribute
-        const entityId = this.entity[index].entity_id;
-        const { attribute } = this.config.entities[index];
+        const entityId = this.config.entities[index].entity;
+        const attribute = this.config.entities[index].attribute;
         const stateObj = this._hass.states[entityId];
-        let parts;
-        if (attribute) {
-          parts = this._hass.formatEntityAttributeValueToParts(
+        if (attribute && !this.isObjectAttr(attribute)) {
+          // formatting not-object attribute
+          const attrParts = this._hass.formatEntityAttributeValueToParts(
             stateObj,
             attribute,
-            state * value_factor,
+            state,
+          );
+          value = attrParts.find((part) => part.type === 'value')?.value;
+          return value;
+        } else if (attribute && this.isObjectAttr(attribute)) {
+          // formatting object attribute - similar to Y-axis labels
+          return formatNumber(
+            state,
+            this._hass.locale
           );
         } else {
-          parts = this._hass.formatEntityStateToParts(
+          // formatting state
+          const stateParts = this._hass.formatEntityStateToParts(
             stateObj,
-            state * value_factor,
+            state,
           );
+          value = stateParts.find((part) => part.type === 'value')?.value;
+          return value;
         }
-        const partValue = parts.find(part => part.type === 'value');
-        value = partValue && partValue.value;
-        return value;
       } else {
         // formatting Y-axis (primary, secondary) labels
-        value = Number.isNaN(state) ? state : state * value_factor;
+        // use a default hard-coded accuracy
         return formatNumber(
-          value,
-          this._hass.locale,
+          state,
+          this._hass.locale
         );
       }
     }
 
-    // acuracy defined by dec
-    // const x = 10 ** dec;
-    value = state * value_factor;
+    // use an acuracy defined by "dec" variable
     return formatNumber(
-      value,
+      state,
       this._hass.locale,
-      { minimumFractionDigits: dec, maximumFractionDigits: dec },
+      { minimumFractionDigits: dec, maximumFractionDigits: dec }
     );
   }
 
