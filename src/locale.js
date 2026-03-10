@@ -1,4 +1,4 @@
-// fragment of format_number.ts from HA frontend converted to JS
+// This file is mainly a fragment of format_number.ts from HA frontend converted to JS
 
 // this var was converted from TS enum
 /* must be uncommented before merging with https://github.com/kalkih/mini-graph-card/pull/1347
