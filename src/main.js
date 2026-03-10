@@ -7,6 +7,9 @@ import Graph from './graph';
 import style from './style';
 import handleClick from './handleClick';
 import buildConfig from './buildConfig';
+import {
+  blankBeforePercent,
+} from './locale';
 import './initialize';
 import { version } from '../package.json';
 
@@ -294,8 +297,11 @@ class MiniGraphCard extends LitElement {
       const value = isTooltip ? tooltipValue : state;
       const entity = isTooltip ? tooltipEntity : id;
       const entityConfig = this.config.entities[entity];
+      // check if a unit shold precend a value
+      const { directOrder } = this.computeStateOrder(index);
       return html`
         <div
+          reversed=${!directOrder}
           class="state ${!isPrimary && 'state--small'}"
           @click=${e => this.handlePopup(e, this.entity[id])}
           style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entity)}` : ''}>
@@ -350,20 +356,10 @@ class MiniGraphCard extends LitElement {
   computeLegend(index) {
     let legend = this.computeName(index);
     const state = this.getEntityState(index);
-
     const { show_legend_state = false } = this.config.entities[index];
-
     if (show_legend_state) {
-      legend += ` (${this.computeState(state)}`;
-      if (!(['unavailable'].includes(state))) {
-        const uom = this.computeUom(index);
-        if (!(['%', ''].includes(uom)))
-          legend += ' ';
-        legend += `${uom}`;
-      }
-      legend += ')';
+      legend += ` (${this.computeStateWithUom(state, index)})`;
     }
-
     return legend;
   }
 
@@ -626,7 +622,7 @@ class MiniGraphCard extends LitElement {
           <div class="info__item">
             <span class="info__item__type">${entry.type}</span>
             <span class="info__item__value">
-              ${this.computeState(entry.state)} ${this.computeUom(0)}
+              ${this.computeStateWithUom(entry.state, 0)}
             </span>
             <span class="info__item__time">
               ${entry.type !== 'avg' ? getTime(new Date(entry.last_changed), this.config.format, this._hass.language) : ''}
@@ -708,19 +704,39 @@ class MiniGraphCard extends LitElement {
   }
 
   computeUom(index) {
-    return (
-      this.config.entities[index].unit !== undefined
-        ? this.config.entities[index].unit
-        : (
-          this.config.unit !== undefined
-            ? this.config.unit
-            : (
-              !this.config.entities[index].attribute
-                ? (this.entity[index].attributes.unit_of_measurement || '')
-                : ''
-            )
-        )
-    );
+    const entityId = this.entity[index].entity_id;
+    const stateObj = this._hass.states[entityId];
+    let unit;
+    if (!stateObj || isUnavailableState(stateObj.state)) {
+      unit = '';
+    } else if (this.config.entities[index].unit !== undefined) {
+      unit = this.config.entities[index].unit;
+    } else if (this.config.unit !== undefined) {
+      unit = this.config.unit;
+    } else {
+      // retrieving a native unit
+      const { attribute } = this.config.entities[index];
+      if (!attribute || !this.isObjectAttr(attribute)) {
+        // any cases except an object attribute
+        let parts;
+        if (attribute) {
+          parts = this._hass.formatEntityAttributeValueToParts(
+            stateObj,
+            attribute,
+          );
+        } else {
+          parts = this._hass.formatEntityStateToParts(
+            stateObj,
+          );
+        }
+        const unitPart = parts.find(part => part.type === 'unit');
+        unit = unitPart && unitPart.value;
+      } else {
+        // object attribute - considered as unitless
+        unit = '';
+      }
+    }
+    return (unit || '');
   }
 
   computeState(inState) {
@@ -767,6 +783,74 @@ class MiniGraphCard extends LitElement {
       this.stateChanged = false;
       this.updateData();
     }
+  }
+
+  /**
+  * Returns settings defining an order of a state/attrubute value presentation
+  * @returns {Object}
+  * directOrder - true: "value literal unit", false: "unit literal value";
+  *
+  * delimiter - an optional literal separator between value & unit
+  * @param index Index of an entity in config.entities
+  */
+  computeStateOrder(index) {
+    const entityId = this.config.entities[index].entity;
+    const { attribute } = this.config.entities[index];
+    if (!attribute || !this.isObjectAttr(attribute)) {
+      // any cases except an object attribute
+      const stateObj = this._hass.states[entityId];
+      let parts;
+      if (attribute) {
+        parts = this._hass.formatEntityAttributeValueToParts(
+          stateObj,
+          attribute,
+        );
+      } else {
+        parts = this._hass.formatEntityStateToParts(stateObj);
+      }
+      const indexUnit = parts.findIndex(part => part.type === 'unit');
+      const indexValue = parts.findIndex(part => part.type === 'value');
+      const directOrder = indexUnit === -1 || indexUnit > indexValue;
+      const delimiterPart = parts.find(part => part.type === 'literal');
+      const delimiter = delimiterPart && delimiterPart.value;
+      return { directOrder, delimiter: delimiter || ''};
+    } else {
+      // object attribute
+      return { directOrder: true, delimiter: ' '};
+    }
+  }
+
+  /**
+  * Returns a string state/attrubute value presentation
+  * @returns {string} State/attrubute value presentation
+  * @param {number|string} inState Value of a state/attribute
+  * @param {number} index Index of an entity in config.entities
+  */
+  computeStateWithUom(inState, index) {
+    // get a state/attribute value
+    const state = this.computeState(inState, index);
+    // get a unit
+    const unit = this.computeUom(index);
+    // get an order & delimiter
+    const { directOrder, delimiter } = this.computeStateOrder(index);
+    let revisedDelimiter;
+    if (unit === '') {
+      revisedDelimiter = '';
+    } else  if (directOrder
+      && !delimiter
+      && (this.config.unit || this.config.entities[index].unit)
+      && (unit !== '%'
+        || blankBeforePercent(this._hass.locale) === ' ')) {
+      // add a delimiter for a user-defined unit (except for "%" for some locales)
+      revisedDelimiter = ' ';
+    } else {
+      revisedDelimiter = delimiter;
+    }
+    // compose a string
+    const composed = directOrder
+      ? `${state}${revisedDelimiter}${unit}`
+      : `${unit}${delimiter}${state}`;
+    return composed;
   }
 
   async updateData({ config } = this) {
