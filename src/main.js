@@ -809,7 +809,8 @@ class MiniGraphCard extends LitElement {
             attribute,
             state,
           );
-          value = attrParts.find((part) => part.type === 'value')?.value;
+          const partValue = attrParts.find((part) => part.type === 'value');
+          value = partValue && partValue.value;
           return value;
         } else if (attribute && this.isObjectAttr(attribute)) {
           // formatting object attribute - similar to Y-axis labels
@@ -823,7 +824,8 @@ class MiniGraphCard extends LitElement {
             stateObj,
             state,
           );
-          value = stateParts.find((part) => part.type === 'value')?.value;
+          const partValue = stateParts.find((part) => part.type === 'value');
+          value = partValue && partValue.value;
           return value;
         }
       } else {
