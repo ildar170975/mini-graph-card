@@ -800,7 +800,7 @@ class MiniGraphCard extends LitElement {
       if (index >= 0) {
         // formatting a state or attribute
         const entityId = this.config.entities[index].entity;
-        const attribute = this.config.entities[index].attribute;
+        const { attribute } = this.config.entities[index];
         const stateObj = this._hass.states[entityId];
         if (attribute && !this.isObjectAttr(attribute)) {
           // formatting not-object attribute
@@ -809,14 +809,14 @@ class MiniGraphCard extends LitElement {
             attribute,
             state,
           );
-          const partValue = attrParts.find((part) => part.type === 'value');
+          const partValue = attrParts.find(part => part.type === 'value');
           value = partValue && partValue.value;
           return value;
         } else if (attribute && this.isObjectAttr(attribute)) {
           // formatting object attribute - similar to Y-axis labels
           return formatNumber(
             state,
-            this._hass.locale
+            this._hass.locale,
           );
         } else {
           // formatting state
@@ -824,7 +824,7 @@ class MiniGraphCard extends LitElement {
             stateObj,
             state,
           );
-          const partValue = stateParts.find((part) => part.type === 'value');
+          const partValue = stateParts.find(part => part.type === 'value');
           value = partValue && partValue.value;
           return value;
         }
@@ -833,7 +833,7 @@ class MiniGraphCard extends LitElement {
         // use a default hard-coded accuracy
         return formatNumber(
           state,
-          this._hass.locale
+          this._hass.locale,
         );
       }
     }
@@ -842,7 +842,7 @@ class MiniGraphCard extends LitElement {
     return formatNumber(
       state,
       this._hass.locale,
-      { minimumFractionDigits: dec, maximumFractionDigits: dec }
+      { minimumFractionDigits: dec, maximumFractionDigits: dec },
     );
   }
 
