@@ -20,6 +20,7 @@ const blankBeforePercent = (
   }
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export {
   blankBeforePercent,
 };
