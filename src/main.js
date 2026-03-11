@@ -758,12 +758,24 @@ class MiniGraphCard extends LitElement {
       || line_color[index] || line_color[0];
   }
 
+  /**
+  * Returns a name of an entity accounting a `name` option
+  * @returns {string} Name of an entity
+  * @param {number} index Index of an entity in config.entities
+  */
   computeName(index) {
     return this.config.entities[index].name
       || this.entity[index].attributes.friendly_name
       || this.entity[index].entity_id;
   }
 
+  /**
+  * Returns an icon for an entity
+  * accounting an `icon` option, entity's native `icon` attribute,
+  * fallback to a standard MDI "temperature" icon
+  * @returns {string} mdi:icon
+  * @param {object} entity stateObj for an entity
+  */
   computeIcon(entity) {
     return (
       this.config.icon
