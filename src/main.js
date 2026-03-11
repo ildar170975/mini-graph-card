@@ -299,7 +299,7 @@ class MiniGraphCard extends LitElement {
       const value = isTooltip ? tooltipValue : state;
       const entity = isTooltip ? tooltipEntity : id;
       const entityConfig = this.config.entities[entity];
-      // check if a unit shold precend a value
+      // check if a unit should precend a value
       const { directOrder } = this.computeStateOrder(entity);
       return html`
         <div
