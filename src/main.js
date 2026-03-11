@@ -618,13 +618,14 @@ class MiniGraphCard extends LitElement {
   }
 
   renderInfo() {
+    const hideUnit = this.config.show.info_hide_unit;
     return this.abs.length > 0 ? html`
       <div class="info flex">
         ${this.abs.map(entry => html`
           <div class="info__item">
             <span class="info__item__type">${entry.type}</span>
             <span class="info__item__value">
-              ${this.computeStateWithUom(entry.state, 0)}
+              ${this.computeStateWithUom(entry.state, 0, hideUnit)}
             </span>
             <span class="info__item__time">
               ${entry.type !== 'avg' ? getTime(new Date(entry.last_changed), this.config.format, this._hass.language) : ''}
@@ -829,30 +830,35 @@ class MiniGraphCard extends LitElement {
   * @returns {string} State/attrubute value presentation
   * @param {number|string} inState Value of a state/attribute
   * @param {number} index Index of an entity in config.entities
+  * @param {boolean} [hideUnit] Do not show a unit for a value
   */
-  computeStateWithUom(inState, index) {
+  computeStateWithUom(inState, index, hideUnit) {
     // get a state/attribute value
     const state = this.computeState(inState, index);
+
     // get a unit
-    const unit = this.computeUom(index);
-    // get an order & delimiter
-    const { directOrder, delimiter } = this.computeStateOrder(index);
-    let revisedDelimiter;
+    const unit = hideUnit ? '' : this.computeUom(index);
+
+    // get native order & delimiter
+    const { directOrder, delimiter: nativeDelimiter } = this.computeStateOrder(index);
+
+    let delimiter;
     if (unit === '') {
-      revisedDelimiter = '';
+      delimiter = '';
     } else if (directOrder
       && !delimiter
       && (this.config.unit || this.config.entities[index].unit)
       && (unit !== '%'
         || blankBeforePercent(this._hass.locale) === ' ')) {
       // add a delimiter for a user-defined unit (except for "%" for some locales)
-      revisedDelimiter = ' ';
+      delimiter = ' ';
     } else {
-      revisedDelimiter = delimiter;
+      delimiter = nativeDelimiter;
     }
+
     // compose a string
     const composed = directOrder
-      ? `${state}${revisedDelimiter}${unit}`
+      ? `${state}${delimiter}${unit}`
       : `${unit}${delimiter}${state}`;
     return composed;
   }
