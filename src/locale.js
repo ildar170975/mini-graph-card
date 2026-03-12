@@ -8,18 +8,18 @@ const TimeFormat = Object.freeze({
 
 /**
  * Get "24h/12h" hour format dependently on HA Frontend settings
- * @param {object} locale HA Frontend local regional settings
+ * @param {object} localeOptions Object containing a user-selected language and formatting
  * @returns {boolean} true: "24h" format, false: "12h" format
  */
-const getHour24 = (locale) => {
-  if ([TimeFormat.language, TimeFormat.system].includes(locale.time_format)) {
-    const testLanguage = locale.time_format === TimeFormat.language
-      ? locale.language
+const getHour24 = (localeOptions) => {
+  if ([TimeFormat.language, TimeFormat.system].includes(localeOptions.time_format)) {
+    const testLanguage = localeOptions.time_format === TimeFormat.language
+      ? localeOptions.language
       : undefined;
     const test = new Date('January 1, 2020 22:00:00').toLocaleString(testLanguage);
     return !test.includes('10');
   }
-  return locale.time_format === TimeFormat.twenty_four;
+  return localeOptions.time_format === TimeFormat.twenty_four;
 };
 
 /**
