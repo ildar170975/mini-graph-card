@@ -1,7 +1,7 @@
 // This function is taken from HA Frontend
 /**
- * Check if a whitespace is needed before a "%" unit dependently on a locale
- * @param localeOptions The user-selected language and formatting, from `hass.locale`
+ * Checks if a whitespace is needed before a "%" unit dependently on a locale
+ * @param localeOptions Object containing a user-selected language and formatting
  * @returns {string} Whitespace if needed before "%", empty otherwise
  */
 const blankBeforePercent = (
