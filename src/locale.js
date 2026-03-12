@@ -10,7 +10,9 @@ const TimeFormat = Object.freeze({
 });
 */
 
-// this var was converted from TS enum
+/**
+ * HA Frontend number format settings
+ */
 const NumberFormat = Object.freeze({
   language: 'language',
   system: 'system',
@@ -22,6 +24,8 @@ const NumberFormat = Object.freeze({
 });
 
 /* these types are used in FrontendLocaleData
+Added here for a future need; now - for understaning wht FrontendLocaleData is
+
 export enum TimeZone {
   local = 'local',
   server = 'server',
