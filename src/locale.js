@@ -1,4 +1,6 @@
-// this var was converted from TS enum from HA frontend
+/**
+ * HA Frontend time format settings
+ */
 const TimeFormat = Object.freeze({
   language: 'language',
   system: 'system',
