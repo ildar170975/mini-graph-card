@@ -164,7 +164,6 @@ const formatNumberToParts = (
 /**
  * Formats a number based on the user's preference with thousands separator(s)
  * and decimal character for better legibility.
- *
  * @param num Number to format
  * @param localeOptions Object containing a user-selected language and formatting
  * @param options Intl.NumberFormatOptions to use
