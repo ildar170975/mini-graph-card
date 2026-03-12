@@ -24,7 +24,7 @@ const NumberFormat = Object.freeze({
 });
 
 /* these types are used in FrontendLocaleData
-Added here for a future need; now - for understaning wht FrontendLocaleData is
+Added here for a future need; now - for understaning what FrontendLocaleData is
 
 export enum TimeZone {
   local = 'local',
