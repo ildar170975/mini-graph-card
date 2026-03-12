@@ -79,8 +79,8 @@ const numberFormatToLocale = (
 
 /**
  * Generates default options for Intl.NumberFormat
- * @param num The number to be formatted
- * @param options The Intl.NumberFormatOptions that should be included in the returned options
+ * @param num Number to format
+ * @param options Intl.NumberFormatOptions that should be included in the returned options
  */
 const getDefaultFormatOptions = (
   num, // string | number
@@ -110,10 +110,11 @@ const getDefaultFormatOptions = (
 };
 
 /**
- * Returns an array of objects containing the formatted number in parts
+ * Returns an array of objects containing the formatted number in parts.
  * Similar to Intl.NumberFormat.prototype.formatToParts()
- *
- * Input params - same as for formatNumber()
+ * @param num Number to format
+ * @param localeOptions Object containing a user-selected language and formatting
+ * @param options Intl.NumberFormatOptions to use
  */
 const formatNumberToParts = (
   num, // string | number
@@ -164,8 +165,8 @@ const formatNumberToParts = (
  * Formats a number based on the user's preference with thousands separator(s)
  * and decimal character for better legibility.
  *
- * @param num The number to format
- * @param localeOptions The user-selected language and formatting, from `hass.locale`
+ * @param num Number to format
+ * @param localeOptions Object containing a user-selected language and formatting
  * @param options Intl.NumberFormatOptions to use
  */
 const formatNumber = (
