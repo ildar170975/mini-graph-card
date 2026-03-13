@@ -1,17 +1,3 @@
-// This file is mainly a fragment of format_number.ts from HA frontend converted to JS
-
-/**
- * HA Frontend time format settings
- */
-/* must be uncommented before merging with https://github.com/kalkih/mini-graph-card/pull/1347
-const TimeFormat = Object.freeze({
-  language: 'language',
-  system: 'system',
-  am_pm: '12',
-  twenty_four: '24',
-});
-*/
-
 /**
  * HA Frontend number format settings
  */
@@ -64,9 +50,12 @@ export interface FrontendLocaleData {
 }
 */
 
-const numberFormatToLocale = (
-  localeOptions, // FrontendLocaleData
-) /* : string | string[] | undefined */ => {
+/**
+ * Returns a possible language/languages based on a number format
+ * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
+ * @returns {string | string[] | undefined}
+ */
+const numberFormatToLocale = (localeOptions) => {
   switch (localeOptions.number_format) {
     case NumberFormat.comma_decimal:
       return ['en-US', 'en']; // Use United States with fallback to English formatting 1,234,567.89
@@ -85,14 +74,15 @@ const numberFormatToLocale = (
 
 /**
  * Generates default options for Intl.NumberFormat
- * @param num Number to format
- * @param options Intl.NumberFormatOptions that should be included in the returned options
+ * @param {string | number} num Number to format
+ * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions that should be included in the returned options
+ * @returns {Intl.NumberFormatOptions} Default options for Intl.NumberFormat
  */
 const getDefaultFormatOptions = (
-  num, // string | number
-  options, // Intl.NumberFormatOptions
+  num,
+  options,
 ) => {
-  const defaultOptions = { // Intl.NumberFormatOptions
+  const defaultOptions = {
     maximumFractionDigits: 2,
     ...options,
   };
@@ -118,14 +108,14 @@ const getDefaultFormatOptions = (
 /**
  * Returns an array of objects containing the formatted number in parts.
  * Similar to Intl.NumberFormat.prototype.formatToParts()
- * @param num Number to format
- * @param localeOptions Object containing a user-selected language and formatting
- * @param options Intl.NumberFormatOptions to use
+ * @param {string | number} num Number to format
+ * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
+ * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions to use
  */
 const formatNumberToParts = (
-  num, // string | number
-  localeOptions, // FrontendLocaleData (optional)
-  options, // Intl.NumberFormatOptions (optional)
+  num,
+  localeOptions,
+  options,
 ) => {
   const locale = localeOptions
     ? numberFormatToLocale(localeOptions)
@@ -170,14 +160,15 @@ const formatNumberToParts = (
 /**
  * Formats a number based on the user's preference with thousands separator(s)
  * and decimal character for better legibility.
- * @param num Number to format
- * @param localeOptions Object containing a user-selected language and formatting
- * @param options Intl.NumberFormatOptions to use
+ * @param {string | number} num Number to format
+ * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
+ * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions to use
+ * @returns {string} Formatted number
  */
 const formatNumber = (
-  num, // string | number
-  localeOptions, // FrontendLocaleData (optional)
-  options, // Intl.NumberFormatOptions (optional)
+  num,
+  localeOptions,
+  options,
 ) => formatNumberToParts(num, localeOptions, options)
   .map(part => part.value)
   .join('');
