@@ -53,7 +53,7 @@ export interface FrontendLocaleData {
 /**
  * Returns a possible language/languages based on a number format
  * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
- * @returns {string | string[] | undefined}
+ * @returns {string | string[] | undefined} Possible language/languages
  */
 const numberFormatToLocale = (localeOptions) => {
   switch (localeOptions.number_format) {
