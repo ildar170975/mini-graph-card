@@ -52,7 +52,8 @@ export interface FrontendLocaleData {
 
 /**
  * Returns a possible language/languages based on a number format
- * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
+ * @param {FrontendLocaleData} localeOptions Object containing
+ * a user-selected language and formatting
  * @returns {string | string[] | undefined} Possible language/languages
  */
 const numberFormatToLocale = (localeOptions) => {
@@ -75,7 +76,8 @@ const numberFormatToLocale = (localeOptions) => {
 /**
  * Generates default options for Intl.NumberFormat
  * @param {string | number} num Number to format
- * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions that should be included in the returned options
+ * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions
+ * that should be included in the returned options
  * @returns {Intl.NumberFormatOptions} Default options for Intl.NumberFormat
  */
 const getDefaultFormatOptions = (
@@ -109,7 +111,8 @@ const getDefaultFormatOptions = (
  * Returns an array of objects containing the formatted number in parts.
  * Similar to Intl.NumberFormat.prototype.formatToParts()
  * @param {string | number} num Number to format
- * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
+ * @param {FrontendLocaleData} localeOptions Object containing
+ * a user-selected language and formatting
  * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions to use
  */
 const formatNumberToParts = (
@@ -161,7 +164,8 @@ const formatNumberToParts = (
  * Formats a number based on the user's preference with thousands separator(s)
  * and decimal character for better legibility.
  * @param {string | number} num Number to format
- * @param {FrontendLocaleData} localeOptions Object containing a user-selected language and formatting
+ * @param {FrontendLocaleData} localeOptions Object containing
+ * a user-selected language and formatting
  * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions to use
  * @returns {string} Formatted number
  */
