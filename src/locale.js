@@ -4,7 +4,7 @@
  * a user-selected language and formatting
  * @returns {string} Whitespace if needed before "%", empty otherwise
  */
-const blankBeforePercent = localeOptions => {
+const blankBeforePercent = (localeOptions) => {
   switch (localeOptions.language) {
     case 'cs':
     case 'de':
