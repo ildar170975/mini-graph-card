@@ -53,7 +53,7 @@ export interface FrontendLocaleData {
 /**
  * Returns a possible language/languages based on a number format
  * @param {FrontendLocaleData} localeOptions Object containing
- * a user-selected language and formatting
+ * a user-selected language and formatting settings
  * @returns {string | string[] | undefined} Possible language/languages
  */
 const numberFormatToLocale = (localeOptions) => {
@@ -112,7 +112,7 @@ const getDefaultFormatOptions = (
  * Similar to Intl.NumberFormat.prototype.formatToParts()
  * @param {string | number} num Number to format
  * @param {FrontendLocaleData} localeOptions Object containing
- * a user-selected language and formatting
+ * a user-selected language and formatting settings
  * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions to use
  */
 const formatNumberToParts = (
@@ -165,7 +165,7 @@ const formatNumberToParts = (
  * and decimal character for better legibility.
  * @param {string | number} num Number to format
  * @param {FrontendLocaleData} localeOptions Object containing
- * a user-selected language and formatting
+ * a user-selected language and formatting settings
  * @param {Intl.NumberFormatOptions} options Intl.NumberFormatOptions to use
  * @returns {string} Formatted number
  */
