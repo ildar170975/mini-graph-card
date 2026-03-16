@@ -1,7 +1,7 @@
 /**
  * Checks if a whitespace is needed before a "%" unit dependently on a locale
  * @param {FrontendLocaleData} localeOptions Object containing
- * a user-selected language and formatting
+ * a user-selected language and formatting settings
  * @returns {string} Whitespace if needed before "%", empty otherwise
  */
 const blankBeforePercent = (localeOptions) => {
