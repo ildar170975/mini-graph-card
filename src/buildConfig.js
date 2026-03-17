@@ -155,9 +155,6 @@ export default (config) => {
     conf.color_thresholds,
     conf.color_thresholds_transition,
   );
-  const hourFormat = getHourFormat(conf.hour24);
-  const dateFormat = getDateFormat(conf);
-  conf.format = { ...hourFormat, ...dateFormat };
 
   // parse a possibly defined "datetime_format" option;
   // fallback to "day_weekday" if undefined
