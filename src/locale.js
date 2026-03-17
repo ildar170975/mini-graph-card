@@ -113,7 +113,6 @@ const getDateFormat = (config, hass) => {
   let dateOptions;
 
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
-  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     dateOptions = {
@@ -123,6 +122,7 @@ const getDateFormat = (config, hass) => {
     };
   } else {
     // use formatting settings from a card config
+    // eslint-disable-next-line no-lonely-if
     if (datetimeFormatParsed && datetimeFormatParsed.day_weekday) {
       dateOptions = {
         day: 'numeric',
