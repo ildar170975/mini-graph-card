@@ -91,7 +91,6 @@ const resolveTimeZone = (option, serverTimeZone) => {
   return timeZone;
 };
 
-
 /**
  * Get date formatting options
  * @param {object} config Card config
