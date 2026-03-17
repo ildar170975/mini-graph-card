@@ -11,7 +11,7 @@
  * it in tests.
  */
 
-import { assert, beforeEach, describe, expect, it } from 'vitest';
+import { assert, describe, it } from 'vitest';
 import {
   getDateFormat,
   getTimeFormat,
