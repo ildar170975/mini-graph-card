@@ -1,4 +1,4 @@
-import { getHourFormat, getDateFormat } from './locale';
+import { parseDateTimeFormat } from './locale';
 import { log } from './utils';
 import {
   URL_DOCS,
@@ -112,7 +112,6 @@ export default (config) => {
 
   const conf = {
     animate: false,
-    hour24: false,
     font_size: FONT_SIZE,
     font_size_header: FONT_SIZE_HEADER,
     height: 100,
@@ -159,6 +158,10 @@ export default (config) => {
   const hourFormat = getHourFormat(conf.hour24);
   const dateFormat = getDateFormat(conf);
   conf.format = { ...hourFormat, ...dateFormat };
+
+  // parse a possibly defined "datetime_format" option;
+  // fallback to "day_weekday" if undefined
+  conf.datetimeFormatParsed = parseDateTimeFormat(conf.datetime_format);
 
   // override points per hour to mach group_by function
   switch (conf.group_by) {
