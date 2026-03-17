@@ -12,8 +12,15 @@
  */
 
 import { assert, beforeEach, describe, expect, it } from 'vitest';
-import { formatDateTime, TimeFormat, DateFormat, TimeZone } from '../locale';
-import buildConfig from '../buildConfig';
+import {
+  getDateFormat,
+  getTimeFormat,
+  parseDateTimeFormat,
+  formatDateTime,
+  TimeFormat,
+  DateFormat,
+  TimeZone,
+} from '../locale';
 
 // Set UTC time if your vitest is configired for UTC or has a default config;
 // also, set UTC for HASS_TIME_ZONE
@@ -97,10 +104,11 @@ interface ConfigType {
   hour24?: boolean;
   time_format?: Intl.DateTimeFormatOptions;
   date_format?: Intl.DateTimeFormatOptions;
+  datetimeFormatParsed: any;
 };
 
 const getConfig = (
-  hass : any,
+  hass: any,
   datetime_format?: string | undefined,
   hours_to_show?: number | undefined,
   hour24?: boolean | undefined,
@@ -117,7 +125,11 @@ const getConfig = (
   if (hour24 !== undefined) {
     config = { ...config, hour24 };
   }
-  config = buildConfig(config, hass);
+
+  config.datetimeFormatParsed = parseDateTimeFormat(datetime_format!);
+  config.date_format = getDateFormat(config, hass);
+  config.time_format = getTimeFormat(config, hass);
+
   return config;
 };
 
