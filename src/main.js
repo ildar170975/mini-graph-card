@@ -9,8 +9,8 @@ import handleClick from './handleClick';
 import buildConfig from './buildConfig';
 import './initialize';
 import {
-  getHourFormat, getDateFormat,
-  getHour24,
+  formatDateTime,
+  getDateFormat, getTimeFormat,
 } from './locale';
 import { version } from '../package.json';
 import {
@@ -21,7 +21,7 @@ import {
 } from './const';
 import {
   getMin, getAvg, getMax,
-  getTime, getMilli,
+  getMilli,
   compress, decompress,
   getFirstDefinedItem,
   compareArray,
@@ -51,7 +51,10 @@ class MiniGraphCard extends LitElement {
     this.stateChanged = false;
     this.initial = true;
     this._md5Config = undefined;
+
+    // update datetime settings periodically
     this.updateHour24 = true;
+    this.updateDateTimeFormat = true;
   }
 
   static get styles() {
@@ -105,10 +108,13 @@ class MiniGraphCard extends LitElement {
   }
 
   setConfig(config) {
-    this.config = buildConfig(config, this.config);
+    this.config = buildConfig(config, this._hass);
     this._md5Config = SparkMD5.hash(JSON.stringify(this.config));
     const entitiesChanged = !compareArray(this.config.entities || [], config.entities);
+
+    // update datetime settings periodically
     this.updateHour24 = config.hour24 === undefined;
+    this.updateDateTimeFormat = config.datetime_format === undefined;
 
     if (!this.Graph || entitiesChanged) {
       if (this._hass) this.hass = this._hass;
@@ -133,19 +139,15 @@ class MiniGraphCard extends LitElement {
   }
 
   /**
-  * Automatically update "hour24" option (when it is not explicitly set by a user) on every render
+  * Automatically update datetime formatting options (when they are not explicitly set by a user)
+  * on every render
   */
-  updateOptionsFromLocale() {
-    if (this.updateHour24) {
-      let hour24;
-      if (this._hass)
-        hour24 = getHour24(this._hass.locale);
-      else
-        hour24 = false;
-      this.config.hour24 = hour24;
-      const hourFormat = getHourFormat(hour24);
-      const dateFormat = getDateFormat(this.config);
-      this.config.format = { ...hourFormat, ...dateFormat };
+  updateFormatFromLocale(forced) {
+    if (this.updateDateTimeFormat || forced) {
+      this.config.date_format = getDateFormat(this.config, this._hass);
+    }
+    if (this.updateHour24 || this.updateDateTimeFormat || forced) {
+      this.config.time_format = getTimeFormat(this.config, this._hass);
     }
   }
 
@@ -182,6 +184,7 @@ class MiniGraphCard extends LitElement {
 
   firstUpdated() {
     this.initial = false;
+    this.updateFormatFromLocale(true);
   }
 
   updated(changedProperties) {
@@ -203,7 +206,7 @@ class MiniGraphCard extends LitElement {
     if (this.config.entities.some((_, index) => this.entity[index] === undefined)) {
       return this.renderWarnings();
     }
-    this.updateOptionsFromLocale();
+    this.updateFormatFromLocale();
     return html`
       <ha-card
         class="flex"
@@ -590,7 +593,6 @@ class MiniGraphCard extends LitElement {
       group_by,
       points_per_hour,
       hours_to_show,
-      format,
     } = this.config;
 
     // time units in milliseconds in this function
@@ -608,9 +610,9 @@ class MiniGraphCard extends LitElement {
     const now = this.getEndDate();
 
     now.setMilliseconds(now.getMilliseconds() - oneMinute - interval * count);
-    const end = getTime(now, format, this._hass.language);
+    const end = formatDateTime(now, this.config, this._hass);
     now.setMilliseconds(now.getMilliseconds() + oneMinute - interval);
-    const start = getTime(now, format, this._hass.language);
+    const start = formatDateTime(now, this.config, this._hass);
 
     this.tooltip = {
       value,
@@ -652,7 +654,7 @@ class MiniGraphCard extends LitElement {
               ${this.computeState(entry.state)} ${this.computeUom(0)}
             </span>
             <span class="info__item__time">
-              ${entry.type !== 'avg' ? getTime(new Date(entry.last_changed), this.config.format, this._hass.language) : ''}
+              ${entry.type !== 'avg' ? formatDateTime(new Date(entry.last_changed), this.config, this._hass) : ''}
             </span>
           </div>
         `)}
