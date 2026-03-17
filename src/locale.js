@@ -168,7 +168,6 @@ const getTimeFormat = (config, hass) => {
 
   let hourOption;
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
-  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     hourOption = {
@@ -176,6 +175,7 @@ const getTimeFormat = (config, hass) => {
     };
   } else {
     // use formatting settings from a card config
+    // eslint-disable-next-line no-lonely-if
     if (datetimeFormatParsed && datetimeFormatParsed.day_weekday) {
       hourOption = {
         hour: valueUseAmPm ? 'numeric' : '2-digit',
@@ -317,7 +317,6 @@ const formatDate = (
     ? undefined : localeOptions.language;
 
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
-  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     const formatter = new Intl.DateTimeFormat(localeDate, config.date_format);
@@ -338,6 +337,7 @@ const formatDate = (
     }
   } else {
     // use formatting settings from a card config
+    // eslint-disable-next-line no-lonely-if
     if (datetimeFormatParsed && datetimeFormatParsed.day_weekday) {
       const formatter = new Intl.DateTimeFormat(localeDate, config.date_format);
       const formatted = formatter.format(dateObj);
@@ -374,7 +374,6 @@ const formatTime = (
     ? undefined : localeOptions.language;
 
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
-  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     const formatter = new Intl.DateTimeFormat(localeTime, config.time_format);
@@ -382,6 +381,7 @@ const formatTime = (
     return formatted;
   } else {
     // use formatting settings from a card config
+    // eslint-disable-next-line no-lonely-if
     if (datetimeFormatParsed && datetimeFormatParsed.day_weekday) {
       const formatter = new Intl.DateTimeFormat(localeTime, config.time_format);
       const formatted = formatter.format(dateObj);
