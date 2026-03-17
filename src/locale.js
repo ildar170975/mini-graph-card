@@ -108,7 +108,7 @@ const getDateFormat = (config, hass) => {
   const timeZone = resolveTimeZone(localeOptions.time_zone, serverTimeZone);
 
   let options = {
-    timeZone: timeZone,
+    timeZone,
   };
   let dateOptions;
 
@@ -141,7 +141,7 @@ const getDateFormat = (config, hass) => {
 
   options = { ...options, ...dateOptions };
   return options;
-}
+};
 
 /**
  * Get time formatting options
@@ -161,8 +161,8 @@ const getTimeFormat = (config, hass) => {
 
   let options = {
     minute: '2-digit',
-    hourCycle: hourCycle,
-    timeZone: timeZone,
+    hourCycle,
+    timeZone,
   };
 
   let hourOption;
@@ -244,7 +244,7 @@ const parseDateTimeFormat = (dateTimeFormat) => {
 const composeDateString = (
   parts,
   orderDate,
-  date_literal
+  date_literal,
 ) => {
     // 1st literal is considered as a "date literal"
   const dateLiteralPart = parts.find(value => value.type === 'literal');
@@ -253,10 +253,10 @@ const composeDateString = (
     : dateLiteralPart && dateLiteralPart.value; // use a standard separator
 
   const dayPart = parts.find(value => value.type === 'day');
-  let day = dayPart && dayPart.value;
+  const day = dayPart && dayPart.value;
 
   const monthPart = parts.find(value => value.type === 'month');
-  let month = monthPart && monthPart.value;
+  const month = monthPart && monthPart.value;
 
   const yearPart = parts.find(value => value.type === 'year');
   const year = yearPart && yearPart.value;
@@ -270,7 +270,7 @@ const composeDateString = (
   };
   const composed = formats[orderDate];
   return composed;
- };
+};
 
 /**
  * Returns a formatted string for a time value based on parts,
@@ -316,8 +316,8 @@ const formatDate = (
   if (!datetime_format) {
     // follow global HA Frontend settings
     const formatter = new Intl.DateTimeFormat(localeDate, config.date_format);
-    if (localeOptions.date_format === DateFormat.language ||
-      localeOptions.date_format === DateFormat.system) {
+    if (localeOptions.date_format === DateFormat.language
+        || localeOptions.date_format === DateFormat.system) {
       // use default auto-generated presentation
       const formatted = formatter.format(dateObj);
       return formatted;
@@ -327,7 +327,7 @@ const formatDate = (
       // re-compose a string with a required order from localeOptions.date_format
       const composed = composeDateString(
         parts,
-        localeOptions.date_format
+        localeOptions.date_format,
       );
       return composed;
     }
@@ -344,7 +344,7 @@ const formatDate = (
       const composed = composeDateString(
         parts,
         datetimeFormatParsed ? datetimeFormatParsed.order : '.',
-        datetimeFormatParsed && datetimeFormatParsed.date_literal
+        datetimeFormatParsed && datetimeFormatParsed.date_literal,
       );
       return composed;
     }
@@ -376,7 +376,6 @@ const formatTime = (
     return formatted;
   } else {
     // use formatting settings from a card config
-
     if (datetimeFormatParsed && datetimeFormatParsed.day_weekday) {
       const formatter = new Intl.DateTimeFormat(localeTime, config.time_format);
       const formatted = formatter.format(dateObj);
