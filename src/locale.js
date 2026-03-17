@@ -113,6 +113,7 @@ const getDateFormat = (config, hass) => {
   let dateOptions;
 
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
+  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     dateOptions = {
@@ -167,6 +168,7 @@ const getTimeFormat = (config, hass) => {
 
   let hourOption;
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
+  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     hourOption = {
@@ -225,7 +227,9 @@ const parseDateTimeFormat = (dateTimeFormat) => {
         ? DateFormat.DMY
         : DateFormat.YMD;
     return {
-      year_2digit, month_2digit, day_2digit,
+      year_2digit,
+      month_2digit,
+      day_2digit,
       hour_2digit,
       date_literal,
       order,
@@ -246,7 +250,7 @@ const composeDateString = (
   orderDate,
   date_literal,
 ) => {
-    // 1st literal is considered as a "date literal"
+  // 1st literal is considered as a "date literal"
   const dateLiteralPart = parts.find(value => value.type === 'literal');
   const dateLiteral = date_literal
     ? date_literal // use an explicitly defined separator
@@ -313,6 +317,7 @@ const formatDate = (
     ? undefined : localeOptions.language;
 
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
+  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     const formatter = new Intl.DateTimeFormat(localeDate, config.date_format);
@@ -369,6 +374,7 @@ const formatTime = (
     ? undefined : localeOptions.language;
 
   const { datetime_format, datetimeFormatParsed } = config; // user-defined datetime format
+  // eslint-disable-next-line no-lonely-if
   if (!datetime_format) {
     // follow global HA Frontend settings
     const formatter = new Intl.DateTimeFormat(localeTime, config.time_format);
