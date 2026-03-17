@@ -252,9 +252,8 @@ const composeDateString = (
 ) => {
   // 1st literal is considered as a "date literal"
   const dateLiteralPart = parts.find(value => value.type === 'literal');
-  const dateLiteral = date_literal
-    ? date_literal // use an explicitly defined separator
-    : dateLiteralPart && dateLiteralPart.value; // use a standard separator
+  // use an explicitly defined separator or a standard separator
+  const dateLiteral = date_literal || (dateLiteralPart && dateLiteralPart.value);
 
   const dayPart = parts.find(value => value.type === 'day');
   const day = dayPart && dayPart.value;
