@@ -246,7 +246,7 @@ As a shorthand, you can just use a color string for the stops that you want inte
 #### Value factor
 
 Defines a coefficent (factor) applied to displayed values (including Y-axis labels).
-There are two available options - `value_factor` & `value_factor_seconadary`:
+There are two available options - `value_factor` & `value_factor_secondary`:
 1. If none option is defined, a default "1" factor is used (values are shown w/o any conversion).
 2. If only `value_factor` is defined - it is applied to all entities.
 3. If only `value_factor_secondary` is defined - it is applied to all entities with `y_axis: secondary`.
