@@ -302,7 +302,7 @@ class MiniGraphCard extends LitElement {
           style=${entityConfig.state_adaptive_color ? `color: ${this.computeColor(value, entity)}` : ''}>
           ${entityConfig.show_indicator ? this.renderIndicator(value, entity) : ''}
           <span class="state__value ellipsis">
-            ${this.computeState(value, id)}
+            ${this.computeState(value, entity)}
           </span>
           <span class="state__uom ellipsis">
             ${this.computeUom(entity)}
