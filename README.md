@@ -264,7 +264,7 @@ An `object` value can be used to define either an "exponent" factor or a "scale"
 | type ***(required)*** | string |  | `exponent` or `scale`.<br>`exponent` - factor is an exponent (can be negative to scale down).<br>`scale` - factor is a multiplier (can be negative to get a negative value).
 | factor ***(required)*** | number |  | A value of an exponent or a scale.
 
-Inavlid values (absent/undefined/invalid `type` or `factor`) passed in the object lead to a fallback to a default "1" factor.
+Invalid values (absent/undefined/invalid `type` or `factor`) passed in the object lead to a fallback to a default "1" factor.
 
 ### Aggregate functions
 Recorded values are grouped in time buckets which are determined by `group_by`, `points_per_hour` configuration.
