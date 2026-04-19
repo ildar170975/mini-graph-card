@@ -116,7 +116,8 @@ We recommend looking at the [Example usage section](#example-usage) to understan
 | min_bound_range_secondary | number |  | v0.x.x | Applied after everything, makes sure there's a minimum range that the secondary Y-axis will have. Useful for not making small changes look large because of scale.
 | smoothing | boolean | `true` | v0.8.0 | Whether to make graph line smooth.
 | state_map | [state map object](#state-map-object) |  | v0.8.0 | List of entity states to convert (order matters as position becomes a value on the graph).
-| value_factor | number | 0 | v0.9.4 | Scale value by order of magnitude (e.g. convert Watts to kilo Watts), use negative value to scale down.
+| value_factor | number or object |   | v0.9.4<br>v0.14.0 | Scale a value, see [Value factor](#value-factor).
+| value_factor_secondary | number or object |   | v0.14.0 | Scale a value, see [Value factor](#value-factor).
 | logarithmic | boolean | `false` | v0.10.0 | Use a Logarithmic scale for the graph
 
 
@@ -241,6 +242,30 @@ As a shorthand, you can just use a color string for the stops that you want inte
 |------|:----:|:-------:|-------------|
 | value ***(required)*** | string |  | Value to convert.
 | label | string | same as value | String to show as label (if the value is not precise).
+
+#### Value factor
+
+Defines a coefficent (factor) applied to displayed values (including Y-axis labels).
+There are two available options - `value_factor` & `value_factor_secondary`:
+1. If none option is defined, a default "1" factor is used (values are shown w/o any conversion).
+2. If only `value_factor` is defined - it is applied to all entities.
+3. If only `value_factor_secondary` is defined - it is applied to all entities with `y_axis: secondary`.
+4. If both `value_factor` & `value_factor_secondary` are defined - they are applied to entities without `y_axis: secondary` & with `y_axis: secondary` correspondingly.
+
+Each option can be defined either as a `number` or an `object` (see below).
+
+A `number` value is a legacy format and defines an "exponent". Can be used for a unit conversion (e.g. convert Watts to kilo Watts); a negative value can be used to scale down (e.g. convert kilo Watts to Watts).
+Any non-numerical value leads to a fallback to a default "1" factor.
+
+An `object` value can be used to define either an "exponent" factor or a "scale" factor, see below:
+
+| Name | Type | Default | Description |
+|------|:----:|:-------:|-------------|
+| type ***(required)*** | string |  | `exponent` or `scale`.<br>`exponent` - factor is an exponent (can be negative to scale down).<br>`scale` - factor is a multiplier (can be negative to get a negative value).
+| factor ***(required)*** | number |  | A value of an exponent or a scale.
+
+Invalid values (absent/undefined/invalid `type` or `factor`) passed in the object lead to a fallback to a default "1" factor.
+
 
 ### Aggregate functions
 Recorded values are grouped in time buckets which are determined by `group_by`, `points_per_hour` configuration.
