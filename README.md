@@ -254,7 +254,7 @@ There are two available options - `value_factor` & `value_factor_secondary`:
 
 Each option can be defined either as a `number` or an `object` (see below).
 
-A `number` value is a legacy format and defines an "exponent". Can be used to a unit conversion (e.g. convert Watts to kilo Watts); a negative value can be used to scale down (e.g. convert kilo Watts to Watts).
+A `number` value is a legacy format and defines an "exponent". Can be used for a unit conversion (e.g. convert Watts to kilo Watts); a negative value can be used to scale down (e.g. convert kilo Watts to Watts).
 Any non-numerical value leads to a fallback to a default "1" factor.
 
 An `object` value can be used to define either an "exponent" factor or a "scale" factor, see below:
