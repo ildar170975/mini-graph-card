@@ -117,7 +117,7 @@ We recommend looking at the [Example usage section](#example-usage) to understan
 | smoothing | boolean | `true` | v0.8.0 | Whether to make graph line smooth.
 | state_map | [state map object](#state-map-object) |  | v0.8.0 | List of entity states to convert (order matters as position becomes a value on the graph).
 | value_factor | number or object |   | v0.9.4<br>v0.14.0 | Scale a value, see [Value factor](#value-factor-object).
-| value_factor_secondary | number or object | 0 | v0.14.0 | Scale a value, see [Value factor](#value-factor-object).
+| value_factor_secondary | number or object |   | v0.14.0 | Scale a value, see [Value factor](#value-factor-object).
 | logarithmic | boolean | `false` | v0.10.0 | Use a Logarithmic scale for the graph
 
 
