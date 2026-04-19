@@ -15,6 +15,7 @@ const getFactor = (config, index = undefined) => {
   let value_factor;
   if (index >= 0 && config.entities[index] && config.entities[index].value_factor !== undefined) {
     // provided for a possible per-entity value_factor
+    // eslint-disable-next-line prefer-destructuring
     value_factor = config.entities[index].value_factor;
   } else if (index >= 0 && config.entities[index] && config.entities[index].y_axis === 'secondary'
     && config.value_factor_secondary !== undefined) {
@@ -25,6 +26,7 @@ const getFactor = (config, index = undefined) => {
     value_factor = config.value_factor_secondary;
   } else {
     // use a global value_factor
+    // eslint-disable-next-line prefer-destructuring
     value_factor = config.value_factor;
   }
 
