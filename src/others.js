@@ -25,7 +25,7 @@ const getFactor = (config, index = undefined) => {
     value_factor = config.value_factor_secondary;
   } else {
     // use a global value_factor
-   value_factor = config.value_factor;
+    value_factor = config.value_factor;
   }
 
   if (value_factor === undefined) {
