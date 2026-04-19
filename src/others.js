@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 /**
  * The file contains functions which should be exposed for tests
  * and do not belong to other modules like "locale.js"
