@@ -229,7 +229,6 @@ As a shorthand, you can just use a color string for the stops that you want inte
 #### Action object options
 
 All card's area - except a graph part - supports processing of actions.
-
 By default, tapping on an element opens a `more-info` dialog:
 1. For "state" elements - the dialog is opened for a corresponding graph entity.
 2. For "legend" elements - same as above.
